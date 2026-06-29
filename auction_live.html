@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>DBL 2026 Auction Live</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#1a1a2e;
+  --bg2:#16213e;
+  --bg3:#0f3460;
+  --bg4:#1a1a2e;
+  --border:#1e3a5f;
+  --border2:#2d5986;
+  --gold:#e2b04a;
+  --gold2:#b8870f;
+  --red:#e05c5c;
+  --red2:#b03030;
+  --green:#4ecba0;
+  --green2:#2a9d78;
+  --blue:#5b8dee;
+  --blue2:#2c60c0;
+  --purple:#9b87f5;
+  --orange:#f0924a;
+  --text:#e8e0d5;
+  --text2:#a89e8e;
+  --text3:#6e6358;
+  --accent:#e2b04a;
+  --glow:rgba(226,176,74,.15);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  background-image:
+    radial-gradient(ellipse at 15% 0%, rgba(226,176,74,.07) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 100%, rgba(91,141,238,.06) 0%, transparent 55%),
+    radial-gradient(ellipse at 50% 50%, rgba(15,52,96,.4) 0%, transparent 80%);
+}
+input,textarea,button,select{font-family:'Inter',inherit;font-size:13px;}
+h1,h2,.ttl{font-family:'Rajdhani',sans-serif;}
+.wrap{max-width:1340px;margin:0 auto;padding:0 16px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;}
+.ag{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;}
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin-top:10px;}
+.rg{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
+@media(max-width:640px){.g2,.g3,.al{grid-template-columns:1fr!important;}}
+
+/* Cards */
+.card{background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:18px;position:relative;overflow:hidden;}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--red),var(--blue));}
+.card-inset{background:var(--bg4);border:1px solid var(--border);border-radius:10px;padding:12px;}
+
+/* Typography */
+.ttl{font-size:1.1rem;letter-spacing:2px;color:var(--gold);margin-bottom:13px;font-weight:700;text-transform:uppercase;}
+.lbl{display:block;font-size:.66rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:4px;font-weight:600;}
+
+/* Inputs */
+.inp{width:100%;background:var(--bg2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:8px 12px;font-size:.875rem;outline:none;transition:border-color .15s;}
+.inp:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--glow);}
+select.inp{cursor:pointer;}
+textarea.inp{resize:vertical;min-height:76px;}
+.nfo{background:rgba(91,156,246,.08);border:1px solid rgba(91,156,246,.2);border-radius:8px;padding:8px 11px;font-size:.72rem;color:var(--blue);margin-top:7px;line-height:1.5;}
+.hr{height:1px;background:var(--border);margin:10px 0;}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:.74rem;letter-spacing:.8px;text-transform:uppercase;transition:all .15s;white-space:nowrap;}
+.btn:disabled{opacity:.3;cursor:not-allowed;}
+.bpri{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;box-shadow:0 2px 12px rgba(240,192,64,.25);}
+.bpri:hover{box-shadow:0 4px 20px rgba(240,192,64,.4);transform:translateY(-1px);}
+.bsuc{background:linear-gradient(135deg,var(--green),var(--green2));color:#000;box-shadow:0 2px 12px rgba(59,224,160,.2);}
+.bsuc:hover{box-shadow:0 4px 20px rgba(59,224,160,.35);transform:translateY(-1px);}
+.bdan{background:linear-gradient(135deg,var(--red),var(--red2));color:#fff;box-shadow:0 2px 12px rgba(255,95,95,.2);}
+.bdan:hover{box-shadow:0 4px 20px rgba(255,95,95,.35);transform:translateY(-1px);}
+.bgho{background:transparent;border:1px solid var(--border2);color:var(--text2);}
+.bgho:hover{border-color:var(--gold);color:var(--gold);}
+.bpur{background:linear-gradient(135deg,var(--purple),#6d28d9);color:#fff;width:100%;justify-content:center;padding:11px;box-shadow:0 2px 12px rgba(167,139,250,.2);}
+.bpur:hover{box-shadow:0 4px 20px rgba(167,139,250,.35);transform:translateY(-1px);}
+.bund{background:var(--bg4);border:1px solid var(--border);color:var(--text);}
+.borange{background:linear-gradient(135deg,var(--orange),#c2410c);color:#fff;box-shadow:0 2px 12px rgba(251,146,60,.2);}
+.borange:hover{box-shadow:0 4px 20px rgba(251,146,60,.35);transform:translateY(-1px);}
+.bteal{background:linear-gradient(135deg,#2dd4bf,#0d9488);color:#000;box-shadow:0 2px 12px rgba(45,212,191,.2);}
+.bteal:hover{box-shadow:0 4px 20px rgba(45,212,191,.3);transform:translateY(-1px);}
+
+/* File button */
+.file-btn{display:block;padding:7px 12px;border:1px dashed var(--border2);border-radius:8px;background:rgba(91,156,246,.04);color:var(--text2);font-size:.73rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;cursor:pointer;width:100%;margin-top:5px;transition:all .15s;}
+.file-btn:hover{border-color:var(--gold);color:var(--gold);background:var(--glow);}
+.file-btn::-webkit-file-upload-button,.file-btn::file-selector-button{background:transparent;border:none;color:inherit;font:inherit;cursor:pointer;padding:0;margin-right:6px;}
+
+/* Tabs */
+.tabs{display:flex;gap:2px;padding:12px 0 0;border-bottom:1px solid var(--border);}
+.tab{font-family:'Rajdhani',sans-serif;font-weight:600;font-size:.85rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);padding:8px 18px;cursor:pointer;border-radius:8px 8px 0 0;border:1px solid transparent;border-bottom:none;transition:all .15s;}
+.tab:hover{color:var(--text);background:var(--bg4);}
+.tab.active{color:var(--gold);background:var(--bg3);border-color:var(--border);border-bottom-color:var(--bg3);position:relative;top:1px;}
+
+.panel{display:none;padding:16px 0;}
+.panel.active{display:block;}
+
+/* Badges */
+.badge{padding:2px 7px;border-radius:20px;font-size:.57rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;}
+.bs{background:rgba(255,95,95,.12);color:var(--red);border:1px solid rgba(255,95,95,.4);}
+.bu{background:rgba(148,163,188,.08);color:var(--text2);border:1px solid var(--border);}
+.bp{background:rgba(240,192,64,.1);color:var(--gold);border:1px solid rgba(240,192,64,.35);}
+
+/* Player card in grid */
+.pcard{background:var(--bg4);border:1px solid var(--border);border-radius:10px;padding:9px;text-align:center;position:relative;transition:border-color .15s;}
+.pcard:hover{border-color:var(--border2);}
+
+/* Photo wrap */
+.pwrap{position:relative;display:inline-block;cursor:pointer;}
+.pwrap input[type=file]{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;}
+.pph{display:flex;align-items:center;justify-content:center;background:var(--bg2);border:2px dashed var(--border2);color:var(--text3);}
+
+/* Sidebar team card */
+.scard{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:12px;transition:border-color .15s;}
+.scard.win{border-color:var(--green);box-shadow:0 0 16px rgba(59,224,160,.1);}
+.bbar{height:4px;background:var(--bg2);border-radius:2px;margin-top:6px;overflow:hidden;}
+.bf{height:100%;border-radius:2px;transition:width .4s;}
+
+/* SOLD overlay */
+.sold-ov{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.93);align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:20px;cursor:pointer;}
+.sold-ov.show{display:flex;}
+.sold-ov .sold-text{font-family:'Rajdhani',sans-serif;font-size:clamp(3rem,10vw,6rem);color:var(--red);letter-spacing:10px;font-weight:700;text-shadow:0 0 60px var(--red),0 0 120px rgba(255,95,95,.3);animation:soldPulse 0.6s ease-out;}
+@keyframes soldPulse{0%{transform:scale(0.6);opacity:0;}60%{transform:scale(1.08);}100%{transform:scale(1);opacity:1;}}
+
+/* Confirm modal */
+.conf-m{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.8);align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+.conf-m.show{display:flex;}
+
+/* Manual pick modal */
+#manual-m{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.8);align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+#manual-m.show{display:flex;}
+
+/* Toast */
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bg4);border-radius:10px;padding:9px 18px;font-weight:700;font-size:.8rem;letter-spacing:.8px;z-index:999;box-shadow:0 8px 28px rgba(0,0,0,.6);transition:transform .3s cubic-bezier(.34,1.56,.64,1);pointer-events:none;white-space:nowrap;}
+#toast.show{transform:translateX(-50%) translateY(0);}
+
+/* View mode */
+body.view-mode .edit-only{display:none!important;}
+body.view-mode #tab-setup{display:none!important;}
+body.view-mode .view-banner{display:flex!important;}
+.view-banner{display:none;background:linear-gradient(135deg,rgba(59,224,160,.1),rgba(91,156,246,.07));border:1px solid rgba(59,224,160,.25);border-radius:10px;padding:9px 15px;align-items:center;gap:9px;margin-bottom:13px;font-size:.78rem;color:var(--green);}
+
+/* Lightbox */
+#photo-lightbox{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.95);align-items:center;justify-content:center;cursor:zoom-out;backdrop-filter:blur(6px);}
+#photo-lightbox.show{display:flex;}
+#photo-lightbox img{max-width:88vw;max-height:88vh;border-radius:16px;border:3px solid var(--gold);box-shadow:0 0 80px rgba(240,192,64,.2);object-fit:contain;animation:lbIn .2s ease-out;}
+@keyframes lbIn{from{transform:scale(.92);opacity:0;}to{transform:scale(1);opacity:1;}}
+#lightbox-close{position:absolute;top:20px;right:24px;background:rgba(0,0,0,.7);border:1px solid var(--border2);color:var(--text);border-radius:50%;width:40px;height:40px;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+#lightbox-close:hover{border-color:var(--gold);color:var(--gold);}
+#lightbox-name{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.75);border:1px solid var(--border);border-radius:10px;padding:7px 18px;font-size:.9rem;color:var(--gold);font-weight:700;letter-spacing:2px;white-space:nowrap;font-family:'Rajdhani',sans-serif;}
+
+/* Passport photo */
+#spp-wrap{cursor:zoom-in;transition:transform .2s;}
+#spp-wrap:hover{transform:scale(1.03);}
+#spp-wrap img{width:160px;height:200px;border-radius:12px;object-fit:cover;border:3px solid var(--gold);display:block;box-shadow:0 8px 32px rgba(240,192,64,.2);}
+.spp-placeholder{width:160px;height:200px;border-radius:12px;display:flex;align-items:center;justify-content:center;border:2px dashed var(--border2);background:var(--bg2);font-size:3.5rem;color:var(--text3);}
+
+/* Round indicator */
+.unsold-round-badge{display:inline-block;background:rgba(251,146,60,.15);color:var(--orange);border:1px solid var(--orange);border-radius:4px;font-size:.52rem;font-weight:700;letter-spacing:1px;padding:1px 5px;margin-left:4px;text-transform:uppercase;}
+#round-indicator{background:rgba(251,146,60,.08);border:1px solid rgba(251,146,60,.3);border-radius:10px;padding:8px 14px;font-size:.74rem;color:var(--orange);font-weight:700;letter-spacing:1px;display:none;margin-bottom:10px;text-align:center;}
+#round-indicator.show{display:block;}
+
+/* Groups */
+.group-tag{display:inline-block;padding:1px 8px;border-radius:12px;font-size:.57rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
+.group-filter-bar{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px;align-items:center;}
+.gfbtn{padding:3px 11px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:.64rem;font-weight:700;cursor:pointer;letter-spacing:.8px;transition:all .15s;}
+.gfbtn.active{border-color:var(--gold);color:var(--gold);background:var(--glow);}
+.gfbtn:hover{border-color:var(--blue);color:var(--blue);}
+
+/* Header nav */
+.topbar{background:linear-gradient(135deg,rgba(15,52,96,.97),rgba(26,26,46,.98));border-bottom:1px solid var(--border2);padding:12px 18px;position:sticky;top:0;z-index:100;box-shadow:0 4px 28px rgba(0,0,0,.5);display:flex;align-items:center;gap:14px;backdrop-filter:blur(14px);}
+
+/* Stat pills */
+.stat-pill{background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.72rem;color:var(--text2);font-weight:600;}
+.stat-pill strong{color:var(--text);}
+
+/* Bid display */
+.bid-display{font-family:'Rajdhani',sans-serif;font-size:2.6rem;color:var(--green);letter-spacing:3px;font-weight:700;line-height:1;text-shadow:0 0 30px rgba(59,224,160,.3);}
+
+/* Player name display */
+.player-name-display{font-family:'Rajdhani',sans-serif;font-size:clamp(1.2rem,3vw,2.2rem);letter-spacing:4px;color:var(--gold);font-weight:700;min-height:36px;}
+
+/* Manual select modal styles */
+.mpl-item{display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:8px;cursor:pointer;border:1px solid transparent;transition:all .12s;}
+.mpl-item:hover{background:var(--bg4);border-color:var(--border);}
+.mpl-item.active{background:rgba(240,192,64,.07);border-color:var(--gold);}
+
+/* ─── GATE ─────────────────────────────────────────── */
+#gate{position:fixed;inset:0;z-index:9000;background:linear-gradient(160deg,#0a1628 0%,#0d2244 60%,#0a1628 100%);display:flex;align-items:flex-end;justify-content:center;padding:0}
+#gate.gone{display:none}
+.gate-sheet{background:var(--bg3);border-radius:24px 24px 0 0;border:1px solid var(--border2);padding:28px 24px 36px;width:100%;max-width:500px;margin:0 auto;box-shadow:0 -8px 48px rgba(0,0,0,.6);}
+.gate-handle{width:40px;height:4px;background:var(--border2);border-radius:2px;margin:0 auto 20px}
+.gate-hero{text-align:center;margin-bottom:22px}
+.gate-emoji{font-size:2.6rem;display:block;margin-bottom:8px}
+.gate-title{font-family:'Rajdhani',sans-serif;font-size:1.5rem;font-weight:700;color:var(--gold);letter-spacing:3px}
+.gate-sub{font-size:.72rem;color:var(--text2);margin-top:4px;letter-spacing:.5px}
+.gate-field{position:relative;margin-bottom:10px}
+.gate-field input{width:100%;padding:13px 44px 13px 16px;border:1.5px solid var(--border);border-radius:11px;font-size:.95rem;background:var(--bg2);color:var(--text);outline:none;font-family:inherit;transition:border-color .15s}
+.gate-field input:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--glow)}
+.gate-field input.err{border-color:var(--red);animation:gshake .3s}
+.gate-eye{position:absolute;right:13px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text3);font-size:.95rem;padding:4px}
+@keyframes gshake{0%,100%{transform:translateX(0)}25%,75%{transform:translateX(-5px)}50%{transform:translateX(5px)}}
+.gate-err{font-size:.73rem;color:var(--red);min-height:16px;margin-bottom:8px;padding-left:4px}
+.gate-btn-main{width:100%;padding:14px;border:none;border-radius:11px;font-size:.95rem;font-weight:700;cursor:pointer;font-family:'Rajdhani',sans-serif;letter-spacing:2px;text-transform:uppercase;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px}
+.gate-btn-main:active{transform:scale(.97)}
+.gate-btn-viewer{background:linear-gradient(135deg,var(--green),var(--green2));color:#000}
+.gate-btn-admin{background:var(--bg2);border:1px solid var(--border2);color:var(--text2)}
+.gate-btn-admin:hover{border-color:var(--gold);color:var(--gold)}
+.gate-divider{display:flex;align-items:center;gap:10px;margin:12px 0;color:var(--text3);font-size:.72rem;letter-spacing:1px}
+.gate-divider::before,.gate-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ─── SYNC MODAL ─────────────────────────────────────── */
+#sync-modal{display:none;position:fixed;inset:0;z-index:8000;background:rgba(0,0,0,.75);align-items:flex-end;justify-content:center;backdrop-filter:blur(4px)}
+#sync-modal.open{display:flex}
+.sync-sheet{background:var(--bg3);border-radius:24px 24px 0 0;border:1px solid var(--border2);padding:24px 20px 36px;width:100%;max-width:560px;max-height:88vh;overflow-y:auto;box-shadow:0 -8px 48px rgba(0,0,0,.6)}
+
+/* ─── SYNC STATUS PILL ───────────────────────────────── */
+#sync-pill{position:fixed;bottom:16px;right:14px;display:flex;align-items:center;gap:5px;background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:5px 12px 5px 8px;font-size:.68rem;font-weight:700;letter-spacing:.5px;z-index:200;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.4);color:var(--text2);transition:all .2s;display:none}
+#sync-pill:hover{border-color:var(--gold)}
+.sdot{width:8px;height:8px;border-radius:50%;background:var(--text3);flex-shrink:0;transition:background .3s}
+.sdot.ok{background:var(--green)}
+.sdot.syncing{background:var(--gold);animation:sdp .7s infinite}
+.sdot.err{background:var(--red)}
+.sdot.local{background:var(--blue)}
+@keyframes sdp{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ─── VIEWER BANNER UPDATE ───────────────────────────── */
+#sold-notify{display:none;position:fixed;top:70px;left:50%;transform:translateX(-50%);z-index:1000;background:var(--bg3);border:2px solid var(--gold);border-radius:12px;padding:10px 20px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.9rem;color:var(--gold);letter-spacing:2px;box-shadow:0 4px 24px rgba(0,0,0,.6);animation:fadeUp .3s ease-out}
+@keyframes fadeUp{from{opacity:0;transform:translateX(-50%) translateY(10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+</style>
+</head>
+<body>
+
+
+<!-- ─── ACCESS GATE ──────────────────────────────────── -->
+<div id="gate">
+  <div class="gate-sheet">
+    <div class="gate-handle"></div>
+    <div class="gate-hero">
+      <span class="gate-emoji">🏏</span>
+      <div class="gate-title">DBL 2026 AUCTION</div>
+      <div class="gate-sub" id="gate-auction-name">Live Auction Platform</div>
+    </div>
+
+    <!-- Viewer entry -->
+    <div id="gate-viewer-sec">
+      <button class="gate-btn-main gate-btn-viewer" onclick="gateEnterViewer()">
+        👁 Watch Live Auction
+      </button>
+      <div class="gate-divider">or</div>
+      <button class="gate-btn-main gate-btn-admin" onclick="gateShowAdmin()">
+        🔐 Admin Login
+      </button>
+    </div>
+
+    <!-- Admin entry (hidden by default) -->
+    <div id="gate-admin-sec" style="display:none">
+      <div class="gate-field">
+        <input type="password" id="gate-pw" placeholder="Admin password"
+          onkeydown="if(event.key==='Enter')gateAdminSubmit()">
+        <button class="gate-eye" onclick="gateTogglePw()">👁</button>
+      </div>
+      <div class="gate-err" id="gate-err"></div>
+      <button class="gate-btn-main" style="background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000"
+        onclick="gateAdminSubmit()">
+        ⚡ Enter as Admin
+      </button>
+      <button style="width:100%;background:none;border:none;cursor:pointer;color:var(--text3);font-size:.75rem;padding:8px;font-family:inherit;margin-top:4px"
+        onclick="gateShowViewer()">← Back</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SYNC MODAL ────────────────────────────────────── -->
+<div id="sync-modal">
+  <div class="sync-sheet">
+    <div class="gate-handle"></div>
+    <div style="font-family:'Rajdhani',sans-serif;font-size:1.1rem;color:var(--gold);letter-spacing:2px;font-weight:700;margin-bottom:4px">⚡ Firebase Live Sync</div>
+    <div style="font-size:.75rem;color:var(--text2);margin-bottom:1.25rem;line-height:1.7">Connect Firebase Realtime Database — free, no request limits, syncs to all viewers instantly.</div>
+
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:14px">
+      <div style="font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Setup (3 min, free)</div>
+      <div style="font-size:.75rem;color:var(--text2);line-height:2.2">
+        <div><span style="background:var(--blue2);color:#fff;border-radius:50%;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:800;margin-right:6px">1</span>
+          Go to <a href="https://console.firebase.google.com" target="_blank" style="color:var(--blue)">console.firebase.google.com</a> → Add project (disable Analytics)
+        </div>
+        <div><span style="background:var(--blue2);color:#fff;border-radius:50%;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:800;margin-right:6px">2</span>
+          Build → Realtime Database → Create Database → <strong>Start in test mode</strong>
+        </div>
+        <div><span style="background:var(--blue2);color:#fff;border-radius:50%;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:800;margin-right:6px">3</span>
+          Copy the URL (e.g. <code style="background:var(--bg);padding:1px 6px;border-radius:4px;font-size:.72rem">https://my-app-default-rtdb.firebaseio.com</code>)
+        </div>
+        <div><span style="background:var(--blue2);color:#fff;border-radius:50%;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:800;margin-right:6px">4</span>
+          Paste below → Connect → Share the <strong>Viewer Link</strong> with participants
+        </div>
+      </div>
+    </div>
+
+    <div id="sync-connect-form">
+      <label class="lbl">Firebase Realtime Database URL</label>
+      <div style="display:flex;gap:7px;margin-bottom:6px">
+        <input type="url" id="fb-url-inp" class="inp"
+          placeholder="https://your-app-default-rtdb.firebaseio.com"
+          style="flex:1;font-family:monospace;font-size:.77rem">
+        <button class="btn bpri" onclick="fbConnect()" id="fb-connect-btn">Connect</button>
+      </div>
+      <div id="fb-connect-status" style="font-size:.73rem;min-height:14px;margin-bottom:10px"></div>
+    </div>
+
+    <div id="sync-connected-panel" style="display:none">
+      <div style="background:rgba(78,203,160,.08);border:1px solid rgba(78,203,160,.3);border-radius:9px;padding:10px 12px;margin-bottom:12px;font-size:.75rem;color:var(--green)">
+        ✅ <strong>Firebase connected!</strong> All changes sync live to viewers automatically.<br>
+        <span style="font-size:.68rem;opacity:.75;word-break:break-all" id="fb-url-display"></span>
+      </div>
+      <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px">
+        <button class="btn bpri" onclick="fbPush(true)">⬆ Push Now</button>
+        <button class="btn bgho" onclick="fbPull(true)">⬇ Pull Latest</button>
+        <button class="btn bdan" onclick="fbDisconnect()">Disconnect</button>
+      </div>
+      <div id="fb-last-sync" style="font-size:.68rem;color:var(--text3);margin-bottom:12px"></div>
+
+      <!-- Share link -->
+      <div id="fb-share-box" style="background:rgba(91,141,238,.08);border:1px solid rgba(91,141,238,.3);border-radius:10px;padding:11px 13px">
+        <div style="font-size:.72rem;font-weight:700;color:var(--blue);margin-bottom:5px">🔗 Viewer Share Link</div>
+        <div style="font-size:.68rem;color:var(--text2);margin-bottom:8px">Share this with participants — they see live scores, no login needed.</div>
+        <div style="display:flex;gap:6px">
+          <input type="text" id="fb-share-link" readonly class="inp"
+            style="flex:1;font-size:.68rem;font-family:monospace;cursor:text">
+          <button class="btn bpri" onclick="copyShareLink()">Copy</button>
+        </div>
+        <div style="font-size:.65rem;color:var(--text3);margin-top:6px">
+          💡 Firebase test mode: set <code style="background:var(--bg);padding:0 4px;border-radius:3px">".read": true</code> in Rules after 30 days
+        </div>
+      </div>
+    </div>
+
+    <div style="border-top:1px solid var(--border);padding-top:12px;margin-top:12px">
+      <div style="font-size:.72rem;font-weight:700;color:var(--text2);margin-bottom:8px">💾 Local Backup</div>
+      <div style="display:flex;gap:7px;flex-wrap:wrap">
+        <button class="btn bgho" onclick="exportStateJSON()">⬇ Export .json</button>
+        <label class="btn bgho" style="cursor:pointer;margin:0">⬆ Import .json
+          <input type="file" accept=".json" style="display:none" onchange="importStateJSON(event)">
+        </label>
+      </div>
+    </div>
+
+    <button style="width:100%;background:none;border:none;cursor:pointer;color:var(--text3);font-size:.75rem;padding:10px;font-family:inherit;margin-top:8px"
+      onclick="closeSyncModal()">Close</button>
+  </div>
+</div>
+
+<!-- ─── SYNC PILL ─────────────────────────────────────── -->
+<div id="sync-pill" onclick="openSyncModal()">
+  <span class="sdot local" id="sdot"></span>
+  <span id="slabel">Local</span>
+</div>
+
+<!-- ─── SOLD NOTIFY (viewer) ─────────────────────────── -->
+<div id="sold-notify"></div>
+
+<canvas id="cvc" style="position:fixed;inset:0;pointer-events:none;z-index:190;"></canvas>
+
+<!-- Lightbox -->
+<div id="photo-lightbox" onclick="closeLightbox()">
+  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="">
+  <div id="lightbox-name"></div>
+</div>
+
+<!-- SOLD overlay -->
+<div class="sold-ov" id="sold-ov" onclick="this.classList.remove('show')">
+  <div class="sold-text">SOLD!</div>
+  <div id="sold-photos" style="display:flex;align-items:center;gap:20px;margin:16px 0;"></div>
+  <div id="sold-pname" style="font-family:'Rajdhani',sans-serif;font-size:clamp(1rem,3.5vw,2rem);color:var(--gold);letter-spacing:4px;font-weight:700;"></div>
+  <div id="sold-tname" style="font-size:.95rem;color:var(--text2);letter-spacing:2px;margin-top:4px;"></div>
+  <div id="sold-owner" style="display:flex;align-items:center;gap:6px;margin-top:5px;justify-content:center;"></div>
+  <div id="sold-amt" style="font-family:'Rajdhani',sans-serif;font-size:clamp(1.2rem,4vw,2rem);color:var(--green);letter-spacing:3px;font-weight:700;margin-top:6px;text-shadow:0 0 30px rgba(59,224,160,.4);"></div>
+  <div style="margin-top:14px;color:var(--text3);font-size:.65rem;letter-spacing:1px;">TAP TO DISMISS</div>
+</div>
+
+<!-- Reset confirm -->
+<div class="conf-m" id="conf-m">
+  <div style="background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:26px 28px;max-width:320px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6);">
+    <div style="font-size:1.8rem;margin-bottom:9px;">⚠️</div>
+    <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.1rem;color:var(--text);margin-bottom:6px;letter-spacing:1px;">RESET AUCTION?</div>
+    <div style="font-size:.78rem;color:var(--text2);margin-bottom:16px;line-height:1.5;">All players return to pending. Team budgets cleared.</div>
+    <div style="display:flex;gap:9px;justify-content:center;">
+      <button class="btn bgho" onclick="document.getElementById('conf-m').classList.remove('show')">Cancel</button>
+      <button class="btn bdan" onclick="doReset()">Yes, Reset</button>
+    </div>
+  </div>
+</div>
+
+<!-- Manual player pick modal -->
+<div id="manual-m">
+  <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:16px;padding:22px;max-width:500px;width:95%;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.7);">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:1.15rem;color:var(--gold);font-weight:700;letter-spacing:2px;">🖐 SELECT PLAYER MANUALLY</div>
+      <button class="btn bgho" style="padding:4px 9px;" onclick="closeManualModal()">✕</button>
+    </div>
+
+    <input class="inp" id="manual-search" placeholder="🔍  Search player name..." oninput="renderManualList()" style="margin-bottom:10px;">
+
+    <!-- Player list -->
+    <div id="manual-list" style="overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:3px;min-height:120px;max-height:280px;"></div>
+
+    <!-- Selected player preview -->
+    <div id="manual-preview" style="display:none;margin-top:10px;padding:10px 12px;background:rgba(226,176,74,.07);border:1px solid var(--gold);border-radius:10px;">
+      <div style="font-size:.62rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:6px;">Selected Player</div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div id="manual-preview-photo" style="width:44px;height:56px;border-radius:8px;background:var(--bg2);flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:1.4rem;border:2px solid var(--gold);"></div>
+        <div>
+          <div id="manual-preview-name" style="font-family:'Rajdhani',sans-serif;font-size:1.1rem;color:var(--gold);font-weight:700;letter-spacing:1px;"></div>
+          <div id="manual-preview-group" style="font-size:.7rem;color:var(--text2);margin-top:2px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bid input + confirm -->
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);">
+      <label class="lbl">Custom Starting Bid ₹ <span style="color:var(--text3);text-transform:none;letter-spacing:0;">(leave blank to use base bid)</span></label>
+      <div style="display:flex;gap:8px;align-items:center;margin-top:5px;">
+        <input class="inp" type="number" id="manual-bid" placeholder="e.g. 25000" step="1000" style="flex:1;" oninput="el('manual-bid-hint').textContent=this.value?fmt(+this.value):''">
+        <div id="manual-bid-hint" style="font-size:.72rem;color:var(--gold);font-weight:700;min-width:40px;"></div>
+        <button class="btn bpri" style="white-space:nowrap;" onclick="confirmManualPick()">⚡ Select &amp; Start Bidding</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<!-- Top bar -->
+<div class="topbar">
+  <div style="font-family:'Rajdhani',sans-serif;font-size:1.5rem;color:var(--gold);letter-spacing:4px;font-weight:700;">DBL <span style="color:var(--red);">2026</span> <span style="color:var(--text2);font-size:1rem;">AUCTION</span></div>
+  <div id="phase-badge" style="background:var(--gold);color:#000;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;padding:4px 11px;border-radius:6px;margin-left:auto;">Setup</div>
+  <div id="round-badge" style="display:none;background:linear-gradient(135deg,var(--orange),#c2410c);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;padding:4px 11px;border-radius:6px;">Round 1</div>
+  <button class="btn bgho edit-only" onclick="openSyncModal()" id="sync-topbar-btn" style="font-size:.65rem;padding:5px 11px;display:none">⚡ Sync</button>
+  <button class="btn bgho" onclick="gateLogout()" id="logout-btn" style="font-size:.65rem;padding:5px 11px;display:none">🚪 Logout</button>
+</div>
+
+<div class="wrap">
+  <div class="view-banner" id="view-banner">
+    <span>👁</span>
+    <span><strong>View Only</strong> — You are watching this auction live. Editing is disabled.</span>
+    <button class="btn bgho" onclick="exitViewMode()" style="margin-left:auto;font-size:.64rem;padding:4px 9px;">Exit</button>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active edit-only" onclick="switchTab('setup')" id="tab-setup">⚙ Setup</div>
+    <div class="tab" onclick="switchTab('auction')" id="tab-auction">🏏 Auction</div>
+    <div class="tab" onclick="switchTab('results')" id="tab-results">🏆 Results</div>
+  </div>
+
+  <!-- ══════════════════ SETUP TAB ══════════════════ -->
+  <div class="panel active edit-only" id="panel-setup">
+
+    <!-- Row 1: Players + Teams -->
+    <div class="ag">
+      <!-- Players -->
+      <div class="card">
+        <div class="ttl">🏏 Players</div>
+        <div class="lbl">Add players (one per line or comma)</div>
+        <textarea class="inp" id="pi" placeholder="Virat Kohli&#10;Rohit Sharma&#10;MS Dhoni"></textarea>
+        <div style="margin-top:6px;">
+          <label class="lbl">Assign to Group (optional)</label>
+          <select class="inp" id="pi-group"><option value="">No Group</option></select>
+        </div>
+        <div style="display:flex;gap:7px;margin-top:9px;flex-wrap:wrap;">
+          <button class="btn bpri" onclick="addPlayers()">+ Add Players</button>
+          <button class="btn bgho" onclick="clearPending()">Clear Pending</button>
+        </div>
+        <div class="hr"></div>
+        <div class="lbl">CSV Upload <small style="color:var(--text3);text-transform:none;letter-spacing:0;">(name per line)</small></div>
+        <input type="file" accept=".csv,.txt" class="file-btn" onchange="uploadCSV(this)" title="Choose CSV">
+        <div class="hr"></div>
+        <div class="lbl">Bulk Player Photos <small style="color:var(--text3);text-transform:none;letter-spacing:0;">(filename = player name)</small></div>
+        <input type="file" accept="image/*" multiple class="file-btn" onchange="bulkPhotos(this,'players')" title="Choose photos">
+        <div class="nfo" id="pstats">No players yet.</div>
+        <div class="pg" id="pgrid"></div>
+      </div>
+
+      <!-- Teams -->
+      <div class="card">
+        <div class="ttl">🛡 Teams</div>
+        <div class="lbl">Add team names (one per line)</div>
+        <textarea class="inp" id="ti" placeholder="Mumbai Indians&#10;Chennai Super Kings&#10;Royal Challengers" style="min-height:60px;"></textarea>
+        <div style="display:flex;gap:7px;margin-top:9px;">
+          <button class="btn bpri" onclick="addTeams()">+ Add Teams</button>
+          <button class="btn bgho" onclick="clearTeams()">Clear All</button>
+        </div>
+        <div class="hr"></div>
+        <!-- MASS UPLOAD for team logos + owner photos -->
+        <div class="nfo" style="margin-bottom:8px;">💡 <strong>Mass Upload:</strong> Name files as <em>TeamName_logo.jpg</em> or <em>TeamName_owner.jpg</em> — they'll auto-match to teams.</div>
+        <div class="lbl">Bulk Team Logos <small style="color:var(--text3);text-transform:none;letter-spacing:0;">(filename = TeamName_logo.ext)</small></div>
+        <input type="file" accept="image/*" multiple class="file-btn" onchange="bulkPhotos(this,'logos')" title="Choose team logos">
+        <div class="lbl" style="margin-top:6px;">Bulk Owner Photos <small style="color:var(--text3);text-transform:none;letter-spacing:0;">(filename = TeamName_owner.ext)</small></div>
+        <input type="file" accept="image/*" multiple class="file-btn" onchange="bulkPhotos(this,'owners')" title="Choose owner photos">
+        <div class="hr"></div>
+        <div class="lbl">Teams</div>
+        <div id="tlist" style="display:flex;flex-direction:column;gap:9px;margin-top:6px;"></div>
+      </div>
+    </div>
+
+    <!-- Row 2: Groups + Settings + Launch -->
+    <div class="ag" style="margin-top:16px;">
+      <div class="card">
+        <div class="ttl">👥 Player Groups</div>
+        <div class="nfo" style="margin-bottom:10px;">Create groups (Male, Female, Seniors, Adults, Teens…) and set per-team limits.</div>
+        <div style="display:flex;gap:7px;align-items:flex-end;flex-wrap:wrap;">
+          <div style="flex:1;min-width:110px;"><label class="lbl">Group Name</label><input class="inp" id="grp-name" placeholder="e.g. Male"></div>
+          <div style="width:80px;"><label class="lbl">Team Limit</label><input class="inp" type="number" id="grp-limit" placeholder="0=none" min="0" value="0"></div>
+          <div><label class="lbl">Colour</label><input type="color" id="grp-color" value="#5b9cf6" style="width:44px;height:36px;border:1px solid var(--border);background:var(--bg2);border-radius:8px;cursor:pointer;padding:2px;"></div>
+          <button class="btn bpri" onclick="addGroup()">+ Add</button>
+        </div>
+        <div id="grp-list" style="margin-top:10px;display:flex;flex-direction:column;gap:6px;"></div>
+      </div>
+
+      <div class="card">
+        <div class="ttl">⚡ Auction Settings</div>
+        <div class="nfo">Raw ₹ amounts: 200000=₹2L · 10000=₹10K · 1000=₹1K</div>
+        <div class="g2" style="margin-top:12px;">
+          <div>
+            <label class="lbl">Base Bid (₹)</label>
+            <input class="inp" type="number" id="bb" value="10000" min="1000" step="1000" oninput="el('bbh').textContent=fmt(+this.value)">
+            <div id="bbh" style="font-size:.66rem;color:var(--gold);margin-top:3px;font-weight:700;">₹10K</div>
+          </div>
+          <div>
+            <label class="lbl">Bid Increment (₹)</label>
+            <input class="inp" type="number" id="bi" value="1000" min="1000" step="1000" oninput="el('bih').textContent=fmt(+this.value)">
+            <div id="bih" style="font-size:.66rem;color:var(--gold);margin-top:3px;font-weight:700;">₹1K</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px;">
+        <div style="font-family:'Rajdhani',sans-serif;font-size:.9rem;letter-spacing:3px;color:var(--text2);font-weight:600;">READY TO GO?</div>
+        <button class="btn bsuc" style="font-size:.9rem;padding:12px 30px;font-family:'Rajdhani',sans-serif;letter-spacing:2px;" onclick="startAuction()">🚀 START AUCTION</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ AUCTION TAB ══════════════════ -->
+  <div class="panel" id="panel-auction">
+    <div class="al" style="display:grid;grid-template-columns:1fr 270px;gap:16px;">
+      <div style="display:flex;flex-direction:column;gap:14px;">
+
+        <!-- Round indicator -->
+        <div id="round-indicator">🔄 Re-Auction Round <span id="round-num">2</span> — Unsold Players</div>
+
+        <!-- Current Player -->
+        <div class="card" style="text-align:center;">
+          <div style="font-size:.62rem;letter-spacing:3px;text-transform:uppercase;color:var(--text3);margin-bottom:10px;">Current Player</div>
+          <div style="display:flex;justify-content:center;margin-bottom:10px;">
+            <div id="spp-wrap" style="position:relative;display:inline-block;" onclick="openPlayerLightbox()">
+              <div class="spp-placeholder">🏏</div>
+            </div>
+          </div>
+          <div id="spn" class="player-name-display">— Waiting —</div>
+          <div id="sp-group-tag" style="margin-top:5px;min-height:20px;"></div>
+          <div id="spb" style="font-size:.8rem;color:var(--text2);margin-top:5px;">Base: —</div>
+          <div style="margin-top:10px;">
+            <div style="display:flex;justify-content:space-between;font-size:.62rem;color:var(--text3);margin-bottom:3px;"><span id="ptxt">0/0</span><span id="ppct">0%</span></div>
+            <div style="height:5px;background:var(--bg2);border-radius:3px;overflow:hidden;"><div id="pbar" style="height:100%;width:0%;background:linear-gradient(90deg,var(--blue),var(--gold));transition:width .4s;"></div></div>
+          </div>
+          <div class="edit-only" style="margin-top:12px;display:flex;flex-direction:column;gap:7px;">
+            <button class="btn bpur" onclick="pickRandom()">🎲 Pick Random Player</button>
+            <!-- Manual pick button -->
+            <button class="btn bteal" onclick="openManualModal()">🖐 Select Player Manually</button>
+            <button class="btn borange" id="reauction-btn" onclick="startReAuction()" style="display:none;">🔄 Re-Auction Unsold Players</button>
+          </div>
+        </div>
+
+        <!-- Bidding -->
+        <div class="card">
+          <div class="ttl">💰 Bidding</div>
+          <div style="text-align:center;margin-bottom:10px;">
+            <div style="font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--text3);">Current Bid</div>
+            <div id="bdis" class="bid-display">—</div>
+          </div>
+          <div class="edit-only">
+            <div style="display:flex;gap:7px;align-items:flex-end;flex-wrap:wrap;margin-bottom:10px;">
+              <div style="flex:1;min-width:85px;">
+                <label class="lbl">Custom Bid (₹)</label>
+                <input class="inp" type="number" id="cbid" placeholder="e.g. 75000" step="1000" oninput="el('cbh').textContent=this.value?fmt(+this.value):''">
+                <div id="cbh" style="font-size:.63rem;color:var(--gold);margin-top:2px;font-weight:700;"></div>
+              </div>
+              <button class="btn bpri" onclick="setCustomBid()">Set</button>
+              <button class="btn bgho" id="incbtn" onclick="incBid()">+Inc</button>
+            </div>
+          </div>
+          <div id="grp-filter-bar" class="group-filter-bar" style="display:none;"></div>
+          <div class="lbl">Teams</div>
+          <div class="g2" id="tbgrid" style="margin-top:6px;gap:7px;"></div>
+          <div class="edit-only">
+            <div style="display:flex;gap:7px;margin-top:10px;flex-wrap:wrap;">
+              <button class="btn bsuc" style="flex:1;justify-content:center;" onclick="assignPlayer()">✅ Assign Player</button>
+              <button class="btn bgho" onclick="markUnsold()">❌ Unsold</button>
+            </div>
+            <div style="display:flex;align-items:center;gap:7px;margin-top:8px;">
+              <button class="btn bund" id="undobtn" onclick="undoLast()" disabled>↩ Undo</button>
+              <div id="undochip" style="display:none;background:var(--bg2);border:1px solid var(--border);border-radius:7px;padding:4px 9px;font-size:.66rem;color:var(--text2);flex:1;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="sidebar" style="display:flex;flex-direction:column;gap:9px;"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ RESULTS TAB ══════════════════ -->
+  <div class="panel" id="panel-results">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:1.4rem;letter-spacing:3px;color:var(--gold);font-weight:700;">Auction Results</div>
+      <button class="btn bgho edit-only" onclick="exportCSV()">📥 Export CSV</button>
+      <button class="btn bdan edit-only" onclick="document.getElementById('conf-m').classList.add('show')" style="margin-left:auto;">🔄 Reset</button>
+    </div>
+    <div class="rg" id="rgrid"></div>
+    <div id="osec"></div>
+  </div>
+</div>
+
+<script>
+var TC=["#f0c040","#ff5f5f","#3be0a0","#5b9cf6","#a78bfa","#f472b6","#2dd4bf","#fb923c","#facc15","#22d3ee"];
+var GC=["#5b9cf6","#ff5f5f","#3be0a0","#f0c040","#a78bfa","#f472b6","#2dd4bf","#fb923c"];
+
+var S={
+  players:[],teams:[],
+  baseBid:10000,inc:1000,
+  cur:null,bid:0,sel:null,hist:[],
+  groups:[],
+  auctionRound:1,
+  isReAuction:false
+};
+var _spin,_tt,isViewMode=false;
+var manualSelectedPlayer=null;
+
+function fmt(n){if(!n&&n!==0)return"—";if(n===0)return"₹0";if(n>=10000000)return"₹"+(n/10000000).toFixed(2).replace(/\.?0+$/,"")+"Cr";if(n>=100000)return"₹"+(n/100000).toFixed(2).replace(/\.?0+$/,"")+"L";if(n>=1000)return"₹"+(n/1000).toFixed(1).replace(/\.0$/,"")+"K";return"₹"+n;}
+function norm(s){return s.toLowerCase().replace(/[^a-z0-9]/g,"");}
+function b64(f){return new Promise(function(r){var fr=new FileReader();fr.onload=function(e){r(e.target.result);};fr.readAsDataURL(f);});}
+function el(id){return document.getElementById(id);}
+
+function toast(msg,type){
+  var t=el("toast");t.textContent=msg;
+  t.style.border="1px solid "+(type==="suc"?"var(--green)":type==="err"?"var(--red)":"var(--border)");
+  t.style.color=type==="suc"?"var(--green)":type==="err"?"var(--red)":"var(--text)";
+  t.classList.add("show");clearTimeout(_tt);_tt=setTimeout(function(){t.classList.remove("show");},2800);
+}
+
+function toggleViewMode(){isViewMode=true;document.body.classList.add("view-mode");var ap=document.querySelector(".panel.active");if(ap&&ap.id==="panel-setup")switchTab("auction");toast("Viewer mode on","suc");}
+function exitViewMode(){isViewMode=false;document.body.classList.remove("view-mode");}
+
+function switchTab(n){
+  ["setup","auction","results"].forEach(function(x){
+    var tab=el("tab-"+x),panel=el("panel-"+x);
+    if(tab)tab.classList.toggle("active",x===n);
+    if(panel)panel.classList.toggle("active",x===n);
+  });
+  el("phase-badge").textContent=n.charAt(0).toUpperCase()+n.slice(1);
+  if(n==="auction"){renderAuction();checkReAuctionBtn();}
+  if(n==="results")renderResults();
+}
+
+function confetti(){
+  var cv=el("cvc"),cx=cv.getContext("2d");cv.width=innerWidth;cv.height=innerHeight;
+  var pp=[];
+  for(var i=0;i<130;i++){pp.push({x:Math.random()*cv.width,y:-10,r:3+Math.random()*6,d:2+Math.random()*5,c:["#f0c040","#ff5f5f","#3be0a0","#5b9cf6","#a78bfa"][~~(Math.random()*5)],ta:0,ts:.05+Math.random()*.09});}
+  var f=0;
+  (function draw(){cx.clearRect(0,0,cv.width,cv.height);pp.forEach(function(p){p.ta+=p.ts;p.y+=p.d;var tl=Math.sin(p.ta)*12;cx.beginPath();cx.lineWidth=p.r;cx.strokeStyle=p.c;cx.moveTo(p.x+tl,p.y);cx.lineTo(p.x+tl,p.y+p.r*2);cx.stroke();});if(++f<120)requestAnimationFrame(draw);else cx.clearRect(0,0,cv.width,cv.height);})();
+}
+
+// ── Lightbox ──────────────────────────────────────────
+function openLightbox(src,name){el("lightbox-img").src=src;el("lightbox-name").textContent=name||"";el("photo-lightbox").classList.add("show");}
+function closeLightbox(){el("photo-lightbox").classList.remove("show");}
+document.addEventListener("keydown",function(e){if(e.key==="Escape"){closeLightbox();closeManualModal();}});
+function openPlayerLightbox(){if(!S.cur||!S.cur.photo)return;openLightbox(S.cur.photo,S.cur.name);}
+
+// ── photoWrap ──────────────────────────────────────────
+function photoWrap(photo,size,radius,icon,onchange){
+  var d=document.createElement("div");d.className="pwrap";d.style.cssText="width:"+size+"px;height:"+size+"px;flex-shrink:0;";
+  if(photo){var img=document.createElement("img");img.src=photo;img.style.cssText="width:"+size+"px;height:"+size+"px;border-radius:"+radius+";object-fit:cover;border:2px solid var(--border);display:block;pointer-events:none;";d.appendChild(img);}
+  else{var ph=document.createElement("div");ph.className="pph";ph.style.cssText="width:"+size+"px;height:"+size+"px;border-radius:"+radius+";font-size:"+(size*.36)+"px;pointer-events:none;";ph.textContent=icon;d.appendChild(ph);}
+  if(!isViewMode){var inp=document.createElement("input");inp.type="file";inp.accept="image/*";inp.title="Click to upload";inp.onchange=onchange;d.appendChild(inp);}
+  return d;
+}
+
+// ── Groups ─────────────────────────────────────────────
+function refreshGroupSelect(){
+  var sel=el("pi-group");if(!sel)return;
+  sel.innerHTML='<option value="">No Group</option>';
+  S.groups.forEach(function(g){var o=document.createElement("option");o.value=g.name;o.textContent=g.name;sel.appendChild(o);});
+}
+function addGroup(){
+  var name=el("grp-name").value.trim(),limit=parseInt(el("grp-limit").value)||0,color=el("grp-color").value||GC[S.groups.length%GC.length];
+  if(!name){toast("Enter group name","err");return;}
+  if(S.groups.find(function(g){return g.name.toLowerCase()===name.toLowerCase();})){toast("Group exists","err");return;}
+  S.groups.push({name:name,limit:limit,color:color});
+  el("grp-name").value="";el("grp-limit").value="0";
+  renderGroupList();refreshGroupSelect();toast("Group '"+name+"' added","suc");
+}
+function renderGroupList(){
+  var list=el("grp-list");if(!list)return;list.innerHTML="";
+  if(!S.groups.length){list.innerHTML='<div style="color:var(--text3);font-size:.75rem;text-align:center;padding:9px;">No groups yet.</div>';return;}
+  S.groups.forEach(function(g,i){
+    var row=document.createElement("div");row.style.cssText="display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:8px 11px;";
+    row.innerHTML='<div style="width:10px;height:10px;border-radius:50%;background:'+g.color+';flex-shrink:0;"></div><div style="flex:1;font-weight:700;font-size:.8rem;">'+g.name+'</div><div style="font-size:.7rem;color:var(--text2);">Limit: <strong style="color:'+(g.limit>0?"var(--gold)":"var(--text2)")+'">'+(g.limit>0?g.limit:"None")+'</strong></div><span style="cursor:pointer;color:var(--text3);font-size:.9rem;" onclick="removeGroup('+i+')">×</span>';
+    list.appendChild(row);
+  });
+}
+function removeGroup(i){var gn=S.groups[i].name;S.groups.splice(i,1);S.players.forEach(function(p){if(p.group===gn)p.group="";});renderGroupList();refreshGroupSelect();renderPG();}
+function getGroupColor(gn){if(!gn)return null;var g=S.groups.find(function(x){return x.name===gn;});return g?g.color:null;}
+function getGroupLimit(gn){if(!gn)return 0;var g=S.groups.find(function(x){return x.name===gn;});return g?g.limit:0;}
+function teamGroupCount(team,gn){return team.players.filter(function(p){var o=S.players.find(function(x){return x.name===p.name;});return o&&o.group===gn;}).length;}
+
+// ── Bulk Photos (players, logos, owners) ───────────────
+function bulkPhotos(inp,mode){
+  var files=Array.from(inp.files),matched=0;
+  var promises=files.map(function(f){
+    return b64(f).then(function(data){
+      var base=f.name.replace(/\.[^.]+$/,"");
+      if(mode==="players"){
+        var p=S.players.find(function(x){return norm(x.name)===norm(base);});
+        if(p){p.photo=data;matched++;}
+      } else if(mode==="logos"){
+        // match TeamName_logo
+        var tn=base.replace(/_logo$/i,"").trim();
+        var t=S.teams.find(function(x){return norm(x.name)===norm(tn);});
+        if(t){t.logo=data;matched++;}
+      } else if(mode==="owners"){
+        // match TeamName_owner
+        var tn2=base.replace(/_owner$/i,"").trim();
+        var t2=S.teams.find(function(x){return norm(x.name)===norm(tn2);});
+        if(t2){t2.ownerPhoto=data;matched++;}
+      }
+    });
+  });
+  Promise.all(promises).then(function(){
+    if(mode==="players")renderPG();else renderTL();
+    toast(matched?matched+"/"+files.length+" matched":"No names matched",matched?"suc":"");
+    inp.value="";
+  });
+}
+
+// ── Re-auction ──────────────────────────────────────────
+function checkReAuctionBtn(){
+  var unsold=S.players.filter(function(p){return p.status==="unsold";}).length;
+  var pending=S.players.filter(function(p){return p.status==="pending";}).length;
+  var btn=el("reauction-btn");if(!btn)return;
+  if(pending===0&&unsold>0){btn.style.display="";btn.textContent="🔄 Re-Auction "+unsold+" Unsold (Round "+(S.auctionRound+1)+")";}
+  else btn.style.display="none";
+}
+function startReAuction(){
+  var unsold=S.players.filter(function(p){return p.status==="unsold";});
+  if(!unsold.length){toast("No unsold players","err");return;}
+  unsold.forEach(function(p){p.status="pending";});
+  S.auctionRound++;S.isReAuction=true;S.cur=null;S.bid=0;S.sel=null;
+  el("round-indicator").classList.add("show");el("round-num").textContent=S.auctionRound;
+  el("round-badge").style.display="";el("round-badge").textContent="Round "+S.auctionRound;
+  el("reauction-btn").style.display="none";
+  renderPG();renderAuction();toast("Round "+S.auctionRound+" — "+unsold.length+" players re-entered","suc");
+}
+
+// ── Players ─────────────────────────────────────────────
+function addPlayers(){
+  var names=el("pi").value.split(/[\n,]+/).map(function(s){return s.trim();}).filter(Boolean);
+  var grp=el("pi-group")?el("pi-group").value:"";
+  var added=names.filter(function(n){return!S.players.find(function(p){return p.name===n;});});
+  if(!added.length){toast("No new players","");return;}
+  added.forEach(function(n){S.players.push({name:n,photo:null,status:"pending",group:grp});});
+  el("pi").value="";renderPG();toast(added.length+" added"+(grp?" → "+grp:""),"suc");
+}
+function uploadCSV(inp){
+  var f=inp.files[0];if(!f)return;
+  var r=new FileReader();r.onload=function(ev){
+    var ns=ev.target.result.split(/[\n,]+/).map(function(s){return s.trim().replace(/^"|"$/g,"");}).filter(function(s){return s&&s.toLowerCase()!=="name";});
+    var added=ns.filter(function(n){return!S.players.find(function(p){return p.name===n;});});
+    added.forEach(function(n){S.players.push({name:n,photo:null,status:"pending",group:""});});
+    renderPG();toast(added.length+" loaded","suc");
+  };r.readAsText(f);inp.value="";
+}
+function clearPending(){S.players=S.players.filter(function(p){return p.status!=="pending";});renderPG();}
+
+function renderPG(){
+  var g=el("pgrid");g.innerHTML="";
+  S.players.forEach(function(p,i){
+    var c=document.createElement("div");c.className="pcard";c.style.opacity=p.status==="sold"?"0.45":"1";
+    if(p.status==="pending"&&!isViewMode){var x=document.createElement("span");x.textContent="×";x.style.cssText="position:absolute;top:4px;right:6px;cursor:pointer;color:var(--text3);font-size:.8rem;";x.onclick=(function(idx){return function(){S.players.splice(idx,1);renderPG();};})(i);c.appendChild(x);}
+    if(p.photo){
+      var wrap=document.createElement("div");wrap.style.cssText="position:relative;width:46px;height:46px;margin:0 auto 5px;cursor:zoom-in;";
+      var img=document.createElement("img");img.src=p.photo;img.style.cssText="width:46px;height:46px;border-radius:50%;object-fit:cover;border:2px solid var(--border);display:block;";
+      img.onclick=(function(pp){return function(e){e.stopPropagation();openLightbox(pp.photo,pp.name);};})(p);
+      wrap.appendChild(img);c.appendChild(wrap);
+    } else {
+      var pw=photoWrap(null,46,"50%","📷",(function(idx){return function(e){if(!e.target.files[0])return;b64(e.target.files[0]).then(function(data){S.players[idx].photo=data;renderPG();});e.target.value="";};})(i));
+      pw.style.margin="0 auto 5px";c.appendChild(pw);
+    }
+    var nm=document.createElement("div");nm.style.cssText="font-size:.67rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;";nm.title=p.name;nm.textContent=p.name;c.appendChild(nm);
+    var bd=document.createElement("div");bd.style.marginTop="3px";
+    var bg=document.createElement("span");bg.className="badge "+(p.status==="sold"?"bs":p.status==="unsold"?"bu":"bp");bg.textContent=p.status;
+    if(p.status==="unsold"&&S.auctionRound>1){var rb=document.createElement("span");rb.className="unsold-round-badge";rb.textContent="R"+S.auctionRound;bg.appendChild(rb);}
+    bd.appendChild(bg);
+    if(p.group){var gc=getGroupColor(p.group);var gt=document.createElement("div");gt.style.marginTop="3px";var gtb=document.createElement("span");gtb.className="group-tag";gtb.style.cssText="background:"+(gc?gc+"22":"rgba(0,0,0,.2)")+";color:"+(gc||"var(--text3)")+";border:1px solid "+(gc||"var(--border)")+";font-size:.5rem;";gtb.textContent=p.group;gt.appendChild(gtb);c.appendChild(gt);}
+    c.appendChild(bd);g.appendChild(c);
+  });
+  var pend=S.players.filter(function(p){return p.status==="pending";}).length;
+  el("pstats").innerHTML="Total: <strong>"+S.players.length+"</strong> &nbsp;·&nbsp; Pending: <strong>"+pend+"</strong> &nbsp;·&nbsp; Sold: <strong>"+S.players.filter(function(p){return p.status==="sold";}).length+"</strong> &nbsp;·&nbsp; Unsold: <strong>"+S.players.filter(function(p){return p.status==="unsold";}).length+"</strong>";
+  checkReAuctionBtn();
+}
+
+// ── Teams ───────────────────────────────────────────────
+function addTeams(){
+  var names=el("ti").value.split(/\n+/).map(function(s){return s.trim();}).filter(Boolean);
+  var added=names.filter(function(n){return!S.teams.find(function(t){return t.name===n;});});
+  if(!added.length){toast("No new teams","");return;}
+  added.forEach(function(n){S.teams.push({name:n,color:TC[S.teams.length%TC.length],logo:null,ownerName:"",ownerPhoto:null,budget:200000,maxPlayers:15,spent:0,players:[]});});
+  el("ti").value="";renderTL();toast(added.length+" teams added","suc");
+}
+function clearTeams(){S.teams=[];renderTL();}
+
+function renderTL(){
+  var list=el("tlist");list.innerHTML="";
+  if(!S.teams.length){list.innerHTML='<div style="color:var(--text3);padding:11px;text-align:center;font-size:.8rem;">No teams yet.</div>';return;}
+  S.teams.forEach(function(t,i){
+    var card=document.createElement("div");card.style.cssText="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:13px;border-left:3px solid "+t.color+";";
+    var top=document.createElement("div");top.style.cssText="display:flex;align-items:center;gap:9px;margin-bottom:10px;";
+    top.appendChild(photoWrap(t.logo,44,"8px","🛡",(function(idx){return function(e){if(!e.target.files[0])return;b64(e.target.files[0]).then(function(data){S.teams[idx].logo=data;renderTL();});e.target.value="";};})(i)));
+    var info=document.createElement("div");info.style.cssText="flex:1;min-width:0;";info.innerHTML='<div style="display:flex;align-items:center;gap:5px;font-weight:700;font-size:.88rem;"><div style="width:7px;height:7px;border-radius:50%;background:'+t.color+';flex-shrink:0;"></div>'+t.name+'</div><div id="ownlbl'+i+'" style="font-size:.65rem;color:var(--text2);margin-top:2px;">'+(t.ownerName?"Owner: "+t.ownerName:"No owner set")+'</div>';
+    top.appendChild(info);
+    top.appendChild(photoWrap(t.ownerPhoto,34,"50%","👤",(function(idx){return function(e){if(!e.target.files[0])return;b64(e.target.files[0]).then(function(data){S.teams[idx].ownerPhoto=data;renderTL();});e.target.value="";};})(i)));
+    if(!isViewMode){var rm=document.createElement("span");rm.textContent="×";rm.style.cssText="cursor:pointer;color:var(--text3);font-size:1rem;flex-shrink:0;";rm.onclick=(function(idx){return function(){S.teams.splice(idx,1);renderTL();};})(i);top.appendChild(rm);}
+    card.appendChild(top);
+    var fields=document.createElement("div");fields.className="g3";
+    fields.innerHTML='<div><label class="lbl">Owner Name</label><input class="inp" value="'+t.ownerName+'" placeholder="Owner name" '+(isViewMode?"readonly ":"")+' oninput="S.teams['+i+'].ownerName=this.value;var lb=el(\'ownlbl'+i+'\');if(lb)lb.textContent=this.value?\'Owner: \'+this.value:\'No owner set\'"></div>'
+      +'<div><label class="lbl">Max Budget (₹)</label><input class="inp" type="number" value="'+t.budget+'" min="1" step="1000" '+(isViewMode?"readonly ":"")+'oninput="S.teams['+i+'].budget=+this.value;this.nextElementSibling.textContent=fmt(+this.value)"><div style="font-size:.65rem;color:var(--gold);margin-top:2px;font-weight:700;">'+fmt(t.budget)+'</div></div>'
+      +'<div><label class="lbl">Max Players</label><input class="inp" type="number" value="'+t.maxPlayers+'" min="1" '+(isViewMode?"readonly ":"")+'oninput="S.teams['+i+'].maxPlayers=+this.value"></div>';
+    card.appendChild(fields);list.appendChild(card);
+  });
+}
+
+// ── Auction start ───────────────────────────────────────
+function startAuction(){
+  if(!S.players.filter(function(p){return p.status==="pending";}).length){toast("Add players first!","err");return;}
+  if(!S.teams.length){toast("Add teams first!","err");return;}
+  S.baseBid=+el("bb").value||10000;S.inc=+el("bi").value||1000;
+  S.cur=null;S.bid=0;S.sel=null;S.hist=[];S.auctionRound=1;S.isReAuction=false;
+  el("round-indicator").classList.remove("show");el("round-badge").style.display="none";
+  switchTab("auction");toast("Auction started!","suc");
+}
+function renderAuction(){renderSidebar();renderTBG();updateProg();refreshUndo();el("spb").textContent="Base: "+fmt(S.baseBid);var ib=el("incbtn");if(ib)ib.textContent="+"+fmt(S.inc);if(!S.cur)el("bdis").textContent="—";checkReAuctionBtn();}
+function updateProg(){var total=S.players.length,done=S.players.filter(function(p){return p.status!=="pending";}).length,pct=total?Math.round(done/total*100):0;el("ptxt").textContent=done+"/"+total;el("ppct").textContent=pct+"%";el("pbar").style.width=pct+"%";}
+
+// ── Set current player (shared by random pick + manual) ─
+function setCurrentPlayer(p,customBid){
+  S.cur=p;
+  el("spn").textContent=p.name;
+  var stag=el("sp-group-tag");stag.innerHTML="";
+  if(p.group){var gc=getGroupColor(p.group);stag.innerHTML='<span class="group-tag" style="background:'+(gc?gc+"22":"rgba(0,0,0,.2)")+';color:'+(gc||"var(--text2)")+';border:1px solid '+(gc||"var(--border)")+';font-size:.68rem;padding:3px 12px;">'+p.group+'</span>';}
+  var sp=el("spp-wrap");sp.innerHTML="";
+  if(p.photo){var img=document.createElement("img");img.src=p.photo;img.title="Click to view full size";sp.appendChild(img);}
+  else{var ph=document.createElement("div");ph.className="spp-placeholder";ph.textContent="🏏";sp.appendChild(ph);}
+  S.bid=customBid||S.baseBid;S.sel=null;
+  el("bdis").textContent=fmt(S.bid);el("spb").textContent="Base: "+fmt(S.baseBid);
+  renderTBG();
+}
+
+// ── Pick Random ─────────────────────────────────────────
+function pickRandom(){
+  var pend=S.players.filter(function(p){return p.status==="pending";});
+  if(!pend.length){checkReAuctionBtn();toast("All auctioned!","");return;}
+  var cnt=0;clearInterval(_spin);
+  _spin=setInterval(function(){
+    var r=pend[~~(Math.random()*pend.length)];el("spn").textContent=r.name;cnt++;
+    if(cnt>22){clearInterval(_spin);var final=pend[~~(Math.random()*pend.length)];setCurrentPlayer(final);}
+  },60);
+}
+
+// ── Manual Player Select ────────────────────────────────
+function openManualModal(){
+  manualSelectedPlayer=null;
+  el("manual-search").value="";
+  el("manual-bid").value="";
+  if(el("manual-bid-hint"))el("manual-bid-hint").textContent="";
+  renderManualList();
+  updateManualPreview();
+  el("manual-m").classList.add("show");
+  setTimeout(function(){el("manual-search").focus();},80);
+}
+function closeManualModal(){el("manual-m").classList.remove("show");manualSelectedPlayer=null;}
+function renderManualList(){
+  var q=norm(el("manual-search").value||"");
+  var pend=S.players.filter(function(p){return p.status==="pending"&&(!q||norm(p.name).includes(q));});
+  var list=el("manual-list");list.innerHTML="";
+  if(!pend.length){list.innerHTML='<div style="color:var(--text3);text-align:center;padding:16px;font-size:.8rem;">No pending players found.</div>';updateManualPreview();return;}
+  pend.forEach(function(p){
+    var row=document.createElement("div");
+    var isActive=manualSelectedPlayer&&manualSelectedPlayer.name===p.name;
+    row.className="mpl-item"+(isActive?" active":"");
+    var gc=p.group?getGroupColor(p.group):"";
+    row.innerHTML=(p.photo?'<img src="'+p.photo+'" style="width:36px;height:36px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid '+(isActive?"var(--gold)":"var(--border)")+'">':"<div style='width:36px;height:36px;border-radius:50%;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;border:2px solid "+(isActive?"var(--gold)":"var(--border)")+"'>🏏</div>")
+      +"<div style='flex:1;min-width:0;'><div style='font-weight:600;font-size:.85rem;"+(isActive?"color:var(--gold)":"")+"'>"+p.name+"</div>"+(p.group?"<div style='font-size:.62rem;margin-top:1px;color:"+(gc||"var(--text3)")+"'>"+p.group+"</div>":"")+"</div>"
+      +(isActive?"<div style='font-size:.8rem;color:var(--green);'>✓</div>":"");
+    row.onclick=(function(player){return function(){manualSelectedPlayer=player;renderManualList();updateManualPreview();};})(p);
+    list.appendChild(row);
+  });
+  updateManualPreview();
+}
+function updateManualPreview(){
+  var prev=el("manual-preview");
+  if(!prev)return;
+  if(!manualSelectedPlayer){prev.style.display="none";return;}
+  prev.style.display="block";
+  var photo=el("manual-preview-photo");
+  photo.innerHTML=manualSelectedPlayer.photo?'<img src="'+manualSelectedPlayer.photo+'" style="width:100%;height:100%;object-fit:cover;">':"🏏";
+  el("manual-preview-name").textContent=manualSelectedPlayer.name;
+  var gc=manualSelectedPlayer.group?getGroupColor(manualSelectedPlayer.group):"";
+  el("manual-preview-group").textContent=manualSelectedPlayer.group?"Group: "+manualSelectedPlayer.group:"No group";
+  if(gc)el("manual-preview-group").style.color=gc;
+}
+function confirmManualPick(){
+  if(!manualSelectedPlayer){toast("Select a player first","err");return;}
+  var customBid=parseInt(el("manual-bid").value)||0;
+  if(customBid&&customBid<S.baseBid){toast("Bid must be \u2265 "+fmt(S.baseBid),"err");return;}
+  var player=manualSelectedPlayer;
+  var startBid=customBid||S.baseBid;
+  closeManualModal();
+  clearInterval(_spin);
+  // Switch to auction tab if not already there
+  if(!el("panel-auction").classList.contains("active")){switchTab("auction");}
+  // Load player into auction stage
+  setCurrentPlayer(player,startBid);
+  // Brief gold flash on bid display to signal readiness
+  el("bdis").style.color="var(--gold)";
+  setTimeout(function(){el("bdis").style.color="var(--green)";},400);
+  toast("\uD83D\uDD90 "+player.name+" ready \u2014 select a team & assign!","suc");
+}
+
+// ── Bid controls ────────────────────────────────────────
+function renderGrpFilterBar(){
+  var bar=el("grp-filter-bar");if(!bar)return;
+  if(!S.groups.length){bar.style.display="none";return;}
+  bar.style.display="flex";bar.innerHTML="";
+  var allBtn=document.createElement("button");allBtn.className="gfbtn active";allBtn.textContent="All";allBtn.id="gfbtn-all";
+  allBtn.onclick=function(){document.querySelectorAll(".gfbtn").forEach(function(b){b.classList.remove("active");});this.classList.add("active");renderTBG();};
+  bar.appendChild(allBtn);
+  S.groups.forEach(function(g){
+    var btn=document.createElement("button");btn.className="gfbtn";
+    btn.innerHTML='<span style="width:7px;height:7px;border-radius:50%;background:'+g.color+';display:inline-block;margin-right:4px;vertical-align:middle;"></span>'+g.name+(g.limit>0?' <span style="font-size:.55rem;opacity:.7;">('+g.limit+')</span>':"");
+    btn.onclick=function(){document.querySelectorAll(".gfbtn").forEach(function(b){b.classList.remove("active");});this.classList.add("active");renderTBG();};
+    bar.appendChild(btn);
+  });
+}
+
+function renderTBG(){
+  var g=el("tbgrid");g.innerHTML="";
+  S.teams.forEach(function(t,i){
+    var rem=t.budget-t.spent,full=t.players.length>=t.maxPlayers;
+    var grpLimitHit=false;
+    if(S.cur&&S.cur.group){var glim=getGroupLimit(S.cur.group);if(glim>0&&teamGroupCount(t,S.cur.group)>=glim)grpLimitHit=true;}
+    var dis=!isViewMode&&(full||rem<(S.bid||0)||grpLimitHit);
+    var b=document.createElement("div");
+    b.style.cssText="background:"+(S.sel===i?"rgba(59,224,160,.06)":"var(--bg2)")+";border:1px solid "+(S.sel===i?"var(--green)":"var(--border)")+";border-left:3px solid "+t.color+";border-radius:9px;padding:8px 9px;cursor:"+(isViewMode?"default":dis?"not-allowed":"pointer")+";opacity:"+(dis?"0.28":"1")+";display:flex;align-items:center;gap:7px;transition:all .15s;";
+    if(S.sel===i)b.style.boxShadow="0 0 16px rgba(59,224,160,.1)";
+    var lEl=t.logo?'<img src="'+t.logo+'" style="width:22px;height:22px;border-radius:4px;object-fit:cover;flex-shrink:0;">':"<div style='width:22px;height:22px;border-radius:4px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:.7rem;flex-shrink:0;'>🛡</div>";
+    var limitInfo="";
+    if(S.cur&&S.cur.group){var gl2=getGroupLimit(S.cur.group);if(gl2>0){var cc=teamGroupCount(t,S.cur.group);limitInfo=" · "+cc+"/"+gl2+" "+S.cur.group;}}
+    b.innerHTML=lEl+"<div style='min-width:0;flex:1;'><div style='font-weight:700;font-size:.74rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'>"+t.name+"</div><div style='font-size:.59rem;color:"+(rem<t.budget*.1?"var(--red)":"var(--text2)")+"'>"+fmt(rem)+" · "+t.players.length+"/"+t.maxPlayers+(full?" FULL":"")+limitInfo+(grpLimitHit?" 🚫":"")+"</div></div>";
+    if(!isViewMode&&!dis){b.onclick=(function(idx){return function(){S.sel=idx;renderTBG();};})(i);}
+    g.appendChild(b);
+  });
+  renderGrpFilterBar();
+}
+
+function setCustomBid(){var v=parseInt(el("cbid").value);if(!v||v<S.baseBid){toast("Bid ≥ "+fmt(S.baseBid)+" required","err");return;}S.bid=v;el("bdis").textContent=fmt(v);el("cbid").value="";el("cbh").textContent="";renderTBG();}
+function incBid(){if(!S.cur){toast("Pick a player first!","err");return;}S.bid+=S.inc;el("bdis").textContent=fmt(S.bid);renderTBG();}
+
+function assignPlayer(){
+  if(!S.cur){toast("Pick a player first!","err");return;}
+  if(S.sel===null){toast("Select a team!","err");return;}
+  var t=S.teams[S.sel];
+  if(S.bid>t.budget-t.spent){toast(t.name+" can't afford "+fmt(S.bid),"err");return;}
+  if(t.players.length>=t.maxPlayers){toast(t.name+" is full!","err");return;}
+  if(S.cur.group){var glim=getGroupLimit(S.cur.group);if(glim>0&&teamGroupCount(t,S.cur.group)>=glim){toast(t.name+" reached "+S.cur.group+" limit","err");return;}}
+  var pi=S.players.findIndex(function(p){return p.name===S.cur.name;});
+  S.players[pi].status="sold";S.players[pi].soldTo=t.name;S.players[pi].soldAmount=S.bid;
+  t.spent+=S.bid;t.players.push({name:S.cur.name,photo:S.cur.photo,amount:S.bid});
+  S.hist.push({pi:pi,ti:S.sel,amt:S.bid,pn:S.cur.name,tn:t.name});
+  showSold(S.cur,t,S.bid);confetti();
+  S.cur=null;S.bid=0;S.sel=null;
+  el("spn").textContent="— Waiting —";el("sp-group-tag").innerHTML="";el("bdis").textContent="—";el("spb").textContent="Base: "+fmt(S.baseBid);
+  el("spp-wrap").innerHTML="<div class='spp-placeholder'>🏏</div>";
+  renderPG();renderAuction();checkReAuctionBtn();toast("Assigned!","suc");
+}
+
+function showSold(player,team,amount){
+  var pp=el("sold-photos");pp.innerHTML="";
+  var pI=player.photo?'<img src="'+player.photo+'" style="width:110px;height:140px;border-radius:12px;object-fit:cover;border:3px solid var(--gold);box-shadow:0 0 40px rgba(240,192,64,.3);">':"<div style='width:110px;height:140px;border-radius:12px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:3rem;border:3px solid var(--gold);'>🏏</div>";
+  var tI=team.logo?'<img src="'+team.logo+'" style="width:76px;height:76px;border-radius:12px;object-fit:cover;border:3px solid var(--blue);box-shadow:0 0 30px rgba(91,156,246,.3);">':"<div style='width:76px;height:76px;border-radius:12px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:2rem;border:3px solid var(--blue);'>🛡</div>";
+  pp.innerHTML=pI+"<div style='font-size:2rem;color:var(--text3);'>→</div>"+tI;
+  el("sold-pname").textContent=player.name;el("sold-tname").textContent="→ "+team.name;
+  var ow=el("sold-owner");ow.innerHTML="";
+  if(team.ownerName){ow.innerHTML=(team.ownerPhoto?'<img src="'+team.ownerPhoto+'" style="width:18px;height:18px;border-radius:50%;object-fit:cover;">':"<span>👤</span>")+"<span style='font-size:.72rem;color:var(--text2);'>"+team.ownerName+"</span>";}
+  if(player.group){var gc=getGroupColor(player.group);ow.innerHTML+='<span class="group-tag" style="margin-left:7px;background:'+(gc?gc+"22":"rgba(0,0,0,.2)")+';color:'+(gc||"var(--text2)")+';border:1px solid '+(gc||"var(--border)")+';">'+player.group+'</span>';}
+  el("sold-amt").textContent=fmt(amount);
+  el("sold-ov").classList.add("show");
+}
+
+function markUnsold(){
+  if(!S.cur){toast("Pick a player first!","err");return;}
+  var pi=S.players.findIndex(function(p){return p.name===S.cur.name;});
+  S.players[pi].status="unsold";S.cur=null;S.bid=0;S.sel=null;
+  el("spn").textContent="— Waiting —";el("sp-group-tag").innerHTML="";el("bdis").textContent="—";
+  el("spp-wrap").innerHTML="<div class='spp-placeholder'>🏏</div>";
+  renderPG();renderAuction();checkReAuctionBtn();toast("Unsold","");
+}
+
+function undoLast(){
+  if(!S.hist.length){toast("Nothing to undo","");return;}
+  var last=S.hist.pop();
+  S.players[last.pi].status="pending";S.players[last.pi].soldTo=null;S.players[last.pi].soldAmount=0;
+  var t=S.teams[last.ti];t.spent-=last.amt;t.players=t.players.filter(function(p){return p.name!==last.pn;});
+  renderPG();renderAuction();toast("Undo: "+last.pn,"suc");
+}
+
+function refreshUndo(){
+  var btn=el("undobtn"),chip=el("undochip");if(!btn)return;
+  btn.disabled=!S.hist.length;
+  if(S.hist.length){var last=S.hist[S.hist.length-1];chip.style.display="block";chip.innerHTML="<strong style='color:var(--text);'>"+last.pn+"</strong> → <strong style='color:var(--text);'>"+last.tn+"</strong> <span style='color:var(--gold);font-weight:700;'>"+fmt(last.amt)+"</span>";}
+  else chip.style.display="none";
+}
+
+function renderSidebar(){
+  var sb=el("sidebar");sb.innerHTML="";
+  S.teams.forEach(function(t,i){
+    var rem=t.budget-t.spent,pct=t.budget>0?Math.min(Math.round(t.spent/t.budget*100),100):0;
+    var rc=rem<t.budget*.1?"var(--red)":rem<t.budget*.25?"var(--gold)":"var(--text)";
+    var card=document.createElement("div");card.className="scard"+(S.sel===i?" win":"");
+    var lEl=t.logo?'<img src="'+t.logo+'" style="width:33px;height:33px;border-radius:7px;object-fit:cover;flex-shrink:0;">':"<div style='width:33px;height:33px;border-radius:7px;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;border-left:2px solid "+t.color+";'>🛡</div>";
+    var oEl=t.ownerName?"<div style='display:flex;align-items:center;gap:3px;margin-top:1px;'>"+(t.ownerPhoto?'<img src="'+t.ownerPhoto+'" style="width:11px;height:11px;border-radius:50%;object-fit:cover;">':"<span style='font-size:.52rem;'>👤</span>")+"<span style='font-size:.58rem;color:var(--text2);'>"+t.ownerName+"</span></div>":"";
+    var sq=t.players.length?"<div style='margin-top:6px;display:flex;flex-wrap:wrap;gap:3px;'>"+t.players.map(function(p){var o=S.players.find(function(x){return x.name===p.name;});var gc=o&&o.group?getGroupColor(o.group):"";return "<div style='background:var(--bg2);border:1px solid "+(gc||"var(--border)")+";border-radius:4px;padding:2px 5px;font-size:.56rem;display:flex;align-items:center;gap:2px;'>"+(p.photo?'<img src="'+p.photo+'" style="width:9px;height:9px;border-radius:50%;object-fit:cover;">':"")+p.name+"</div>";}).join("")+"</div>":"";
+    var grpInfo="";
+    if(S.groups.length){grpInfo="<div style='margin-top:5px;display:flex;flex-wrap:wrap;gap:3px;'>";S.groups.forEach(function(g){var cnt=teamGroupCount(t,g.name),lim=g.limit>0?g.limit:"∞",over=g.limit>0&&cnt>=g.limit;grpInfo+='<span style="font-size:.52rem;padding:1px 5px;border-radius:4px;background:'+(over?g.color+"25":"rgba(0,0,0,.2)")+';color:'+(over?g.color:"var(--text3)")+';border:1px solid '+(over?g.color:"var(--border)")+';">'+g.name+': '+cnt+'/'+lim+'</span>';});grpInfo+="</div>";}
+    card.innerHTML="<div style='display:flex;align-items:center;gap:8px;margin-bottom:8px;border-left:3px solid "+t.color+";padding-left:7px;'>"+lEl+"<div style='flex:1;min-width:0;'><div style='font-weight:700;font-size:.82rem;letter-spacing:.5px;'>"+t.name+"</div>"+oEl+"</div></div>"
+      +"<div style='display:grid;grid-template-columns:1fr 1fr;gap:5px;'>"
+      +"<div style='background:var(--bg2);border-radius:7px;padding:6px 8px;'><div style='font-weight:700;color:"+rc+";font-size:.77rem;'>"+fmt(rem)+"</div><div style='font-size:.53rem;color:var(--text3);text-transform:uppercase;letter-spacing:1px;'>Left</div></div>"
+      +"<div style='background:var(--bg2);border-radius:7px;padding:6px 8px;'><div style='font-weight:700;font-size:.77rem;'>"+t.players.length+"/"+t.maxPlayers+"</div><div style='font-size:.53rem;color:var(--text3);text-transform:uppercase;letter-spacing:1px;'>Players</div></div>"
+      +"</div>"
+      +"<div class='bbar'><div class='bf' style='width:"+pct+"%;background:"+(pct>70?"linear-gradient(90deg,var(--red),var(--orange))":"linear-gradient(90deg,var(--green),var(--blue))")+";'></div></div>"+grpInfo+sq;
+    sb.appendChild(card);
+  });
+}
+
+// ── Results ─────────────────────────────────────────────
+function renderResults(){
+  var g=el("rgrid");g.innerHTML="";
+  S.teams.forEach(function(t){
+    var card=document.createElement("div");card.style.cssText="background:var(--bg3);border:1px solid var(--border);border-radius:13px;overflow:hidden;border-top:2px solid "+t.color+";";
+    var lEl=t.logo?'<img src="'+t.logo+'" style="width:36px;height:36px;border-radius:8px;object-fit:cover;flex-shrink:0;border:2px solid var(--border);">':"<div style='width:36px;height:36px;border-radius:8px;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;'>🛡</div>";
+    var oEl=t.ownerName?"<div style='display:flex;align-items:center;gap:3px;margin-top:2px;'>"+(t.ownerPhoto?'<img src="'+t.ownerPhoto+'" style="width:13px;height:13px;border-radius:50%;object-fit:cover;">':"<span style='font-size:.58rem;'>👤</span>")+"<span style='font-size:.62rem;color:var(--text2);'>"+t.ownerName+"</span></div>":"";
+    var rows=t.players.length?t.players.map(function(p,j){
+      var orig=S.players.find(function(x){return x.name===p.name;});
+      var grpHtml="";if(orig&&orig.group){var gc=getGroupColor(orig.group);grpHtml='<span style="font-size:.5rem;padding:1px 5px;border-radius:3px;background:'+(gc?gc+"22":"rgba(0,0,0,.2)")+';color:'+(gc||"var(--text3)")+';border:1px solid '+(gc||"var(--border)")+';">'+orig.group+'</span>';}
+      return "<div style='display:flex;align-items:center;gap:7px;padding:5px 0;"+(j<t.players.length-1?"border-bottom:1px solid var(--border)":"")+"'>"
+        +(p.photo?'<img src="'+p.photo+'" style="width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0;cursor:zoom-in;" onclick="openLightbox(\''+p.photo.replace(/\\/g,"\\\\").replace(/'/g,"\\'")+'\',\''+p.name.replace(/'/g,"\\'")+'\')">':
+          "<div style='width:22px;height:22px;border-radius:50%;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:.63rem;flex-shrink:0;'>🏏</div>")
+        +"<span style='flex:1;font-size:.76rem;'>"+p.name+" "+grpHtml+"</span>"
+        +"<span style='font-weight:700;color:var(--gold);font-size:.76rem;'>"+fmt(p.amount)+"</span></div>";
+    }).join(""):"<div style='color:var(--text3);text-align:center;padding:11px;font-size:.76rem;'>No players</div>";
+    card.innerHTML="<div style='padding:11px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);'>"+lEl+"<div style='flex:1;min-width:0;'><div style='font-size:.95rem;letter-spacing:1px;font-weight:700;'>"+t.name+"</div>"+oEl+"</div><div style='font-family:Rajdhani,sans-serif;font-weight:700;font-size:.92rem;color:var(--gold);white-space:nowrap;'>"+fmt(t.spent)+"</div></div><div style='padding:10px 14px;'>"+rows+"<div style='margin-top:6px;padding-top:6px;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:.66rem;color:var(--text2);'><span>Remaining</span><span style='color:var(--green);font-weight:700;'>"+fmt(t.budget-t.spent)+"</span></div></div>";
+    g.appendChild(card);
+  });
+  var other=S.players.filter(function(p){return p.status==="unsold";}).concat(S.players.filter(function(p){return p.status==="pending";}));
+  var os=el("osec");os.innerHTML="";
+  if(other.length){
+    var wrap=document.createElement("div");wrap.className="card";wrap.style.marginTop="14px";wrap.innerHTML="<div class='ttl'>📋 Other Players</div>";
+    var pg=document.createElement("div");pg.className="pg";
+    other.forEach(function(p){
+      var c=document.createElement("div");c.style.cssText="background:var(--bg4);border:1px solid var(--border);border-radius:9px;padding:9px;text-align:center;opacity:.65;";
+      var photoEl=(p.photo?'<img src="'+p.photo+'" style="width:38px;height:38px;border-radius:50%;object-fit:cover;margin:0 auto 4px;display:block;cursor:zoom-in;" onclick="openLightbox(\''+p.photo.replace(/\\/g,"\\\\").replace(/'/g,"\\'")+'\',\''+p.name.replace(/'/g,"\\'")+'\')">':
+        "<div style='width:38px;height:38px;border-radius:50%;margin:0 auto 5px;display:flex;align-items:center;justify-content:center;background:var(--bg2);font-size:.95rem;color:var(--text3);'>🏏</div>");
+      var grpHtml="";if(p.group){var gc=getGroupColor(p.group);grpHtml='<div style="margin-top:2px;"><span class="group-tag" style="font-size:.5rem;background:'+(gc?gc+"22":"rgba(0,0,0,.2)")+';color:'+(gc||"var(--text3)")+';border:1px solid '+(gc||"var(--border)")+';">'+p.group+'</span></div>';}
+      c.innerHTML=photoEl+"<div style='font-size:.65rem;font-weight:600;'>"+p.name+"</div>"+grpHtml+"<div style='margin-top:3px;'><span class='badge "+(p.status==="unsold"?"bu":"bp")+"'>"+p.status+"</span></div>";
+      pg.appendChild(c);
+    });
+    wrap.appendChild(pg);
+    var unsoldOnly=S.players.filter(function(p){return p.status==="unsold";});
+    var pendingOnly=S.players.filter(function(p){return p.status==="pending";});
+    if(unsoldOnly.length&&pendingOnly.length===0){
+      var reBtn=document.createElement("div");reBtn.style.marginTop="11px";
+      reBtn.innerHTML='<button class="btn borange edit-only" onclick="startReAuction();switchTab(\'auction\')">🔄 Start Re-Auction Round '+(S.auctionRound+1)+' ('+unsoldOnly.length+' players)</button>';
+      wrap.appendChild(reBtn);
+    }
+    os.appendChild(wrap);
+  }
+}
+
+// ── Export CSV (includes bid/amount column) ─────────────
+function exportCSV(){
+  var c="Team,Owner,Player,Group,Bid Amount,Status\n";
+  S.teams.forEach(function(t){
+    t.players.forEach(function(p){
+      var orig=S.players.find(function(x){return x.name===p.name;});
+      c+='"'+t.name+'","'+(t.ownerName||"")+'","'+p.name+'","'+(orig&&orig.group||"")+'",'+p.amount+',"sold"\n';
+    });
+  });
+  S.players.filter(function(p){return p.status==="unsold";}).forEach(function(p){c+='"UNSOLD","","'+p.name+'","'+(p.group||"")+'",0,"unsold"\n';});
+  S.players.filter(function(p){return p.status==="pending";}).forEach(function(p){c+='"PENDING","","'+p.name+'","'+(p.group||"")+'",0,"pending"\n';});
+  var a=document.createElement("a");a.href="data:text/csv;charset=utf-8,"+encodeURIComponent(c);a.download="dbl2026_auction_results.csv";document.body.appendChild(a);a.click();document.body.removeChild(a);toast("Exported!","suc");
+}
+
+function doReset(){
+  el("conf-m").classList.remove("show");
+  S.players.forEach(function(p){p.status="pending";p.soldTo=null;p.soldAmount=0;});
+  S.teams.forEach(function(t){t.spent=0;t.players=[];});
+  S.cur=null;S.bid=0;S.sel=null;S.hist=[];S.auctionRound=1;S.isReAuction=false;
+  el("round-indicator").classList.remove("show");el("round-badge").style.display="none";
+  renderPG();switchTab("setup");toast("Reset!","");
+}
+
+// renderPG();renderTL();renderGroupList(); // now called by enterAdmin/enterViewer via initGate
+
+// ══════════════════════════════════════════════════════
+// CONSTANTS
+// ══════════════════════════════════════════════════════
+var ADMIN_PW_KEY='auction_admin_pw';
+var FB_URL_KEY='auction_fb_url';
+var AUCTION_NODE='auction_state';
+var POLL_INTERVAL=5000;
+var PUSH_DEBOUNCE=1800;
+var _fbUrl='';
+var _pollTimer=null;
+var _pushTimer=null;
+var _lastRemoteTs=0;
+var _isAdmin=false;
+var _bc=null;
+var _adminPw='admin2026'; // Default — admin changes this after first login
+
+// ══════════════════════════════════════════════════════
+// GATE
+// ══════════════════════════════════════════════════════
+(function initGate(){
+  // Check URL params — viewer link has ?view=1&fburl=...
+  var params=new URLSearchParams(location.search);
+  var urlFb=params.get('fburl');
+  var isViewParam=params.get('view')==='1';
+
+  if(urlFb&&isViewParam){
+    // Viewer arrived via share link
+    _fbUrl=decodeURIComponent(urlFb);
+    _isAdmin=false;
+    enterViewer();
+  } else {
+    // Show gate
+    el('gate').style.display='flex';
+  }
+})();
+
+function gateShowAdmin(){
+  el('gate-viewer-sec').style.display='none';
+  el('gate-admin-sec').style.display='block';
+  el('gate-err').textContent='';
+  setTimeout(function(){var pw=el('gate-pw');if(pw){pw.value='';pw.focus();}},50);
+}
+function gateShowViewer(){
+  el('gate-admin-sec').style.display='none';
+  el('gate-viewer-sec').style.display='block';
+  el('gate-err').textContent='';
+}
+function gateTogglePw(){
+  var inp=el('gate-pw');
+  inp.type=inp.type==='password'?'text':'password';
+}
+
+function gateEnterViewer(){
+  _isAdmin=false;
+  el('gate').classList.add('gone');
+  enterViewer();
+}
+
+function gateAdminSubmit(){
+  var pw=el('gate-pw').value;
+  var stored=localStorage.getItem(ADMIN_PW_KEY)||_adminPw;
+  if(pw!==stored){
+    el('gate-pw').classList.add('err');
+    el('gate-err').textContent='Incorrect password.';
+    setTimeout(function(){el('gate-pw').classList.remove('err');},400);
+    return;
+  }
+  _isAdmin=true;
+  el('gate').classList.add('gone');
+  enterAdmin();
+}
+
+function gateLogout(){
+  stopPolling();
+  _isAdmin=false;
+  el('sync-pill').style.display='none';
+  el('sync-topbar-btn').style.display='none';
+  el('logout-btn').style.display='none';
+  // Reset to gate
+  el('gate').classList.remove('gone');
+  gateShowViewer();
+  document.body.classList.add('view-mode');
+}
+
+function enterAdmin(){
+  _isAdmin=true;
+  document.body.classList.remove('view-mode');
+  isViewMode=false;
+  el('sync-pill').style.display='flex';
+  el('sync-topbar-btn').style.display='';
+  el('logout-btn').style.display='';
+  // Load stored Firebase URL
+  _fbUrl=localStorage.getItem(FB_URL_KEY)||'';
+  if(_fbUrl){setSyncStatus('ok','Live');startPolling();}else{setSyncStatus('local','Local');}
+  // Load any saved state
+  var saved=localStorage.getItem('auction_local_state');
+  if(saved){try{var ps=JSON.parse(saved);if(ps&&ps.players)S=ps;}catch(e){}}
+  refreshAll();
+  switchTab('setup');
+}
+
+function enterViewer(){
+  _isAdmin=false;
+  document.body.classList.add('view-mode');
+  isViewMode=true;
+  el('sync-pill').style.display='flex';
+  el('logout-btn').style.display='none';
+  el('sync-topbar-btn').style.display='none';
+
+  if(_fbUrl){
+    setSyncStatus('ok','Live');
+    viewerLoad();
+  } else {
+    setSyncStatus('local','Local');
+    // Load from localStorage if no Firebase
+    var saved=localStorage.getItem('auction_local_state');
+    if(saved){try{var ps=JSON.parse(saved);if(ps&&ps.players)S=ps;}catch(e){}}
+    refreshAll();
+    switchTab('auction');
+  }
+}
+
+// ══════════════════════════════════════════════════════
+// FIREBASE SYNC
+// ══════════════════════════════════════════════════════
+function fbNode(){return _fbUrl.replace(/\/+$/,'')+'/'+AUCTION_NODE+'.json';}
+
+async function fbConnect(){
+  var url=el('fb-url-inp').value.trim();
+  var statusEl=el('fb-connect-status');
+  var btn=el('fb-connect-btn');
+  if(!url){statusEl.textContent='Enter your Firebase URL';statusEl.style.color='var(--red)';return;}
+  if(!url.startsWith('https://')||!url.includes('firebaseio.com')){
+    statusEl.textContent='Must be a .firebaseio.com URL';statusEl.style.color='var(--red)';return;
+  }
+  btn.disabled=true;btn.textContent='Testing…';statusEl.textContent='';
+  _fbUrl=url;
+  try{
+    var res=await fetch(_fbUrl.replace(/\/+$/,'')+'/.json?shallow=true');
+    if(res.status===401||res.status===403)throw new Error('Access denied ('+res.status+'). Set ".read": true in Firebase Rules.');
+    localStorage.setItem(FB_URL_KEY,url);
+    setSyncStatus('ok','Live');
+    refreshSyncUI();
+    startPolling();
+    if(_isAdmin)fbPush(false);
+    statusEl.textContent='✓ Connected!';statusEl.style.color='var(--green)';
+    toast('Firebase connected ✓','suc');
+  }catch(err){
+    _fbUrl='';statusEl.textContent='✗ '+err.message;statusEl.style.color='var(--red)';setSyncStatus('err','Error');
+  }finally{btn.disabled=false;btn.textContent='Connect';}
+}
+
+async function fbPush(manual){
+  if(!_fbUrl)return;
+  if(manual)setSyncStatus('syncing','Pushing…');
+  try{
+    var payload={state:S,ts:Date.now()};
+    var res=await fetch(fbNode(),{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    var base=_fbUrl.replace(/\/+$/,'');
+    fetch(base+'/latest.json',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    _lastRemoteTs=payload.ts;
+    setSyncStatus('ok','Live');
+    el('fb-last-sync').textContent='Last push: '+new Date().toLocaleTimeString();
+    if(manual)toast('Pushed ✓','suc');
+    // Also save to localStorage as backup
+    localStorage.setItem('auction_local_state',JSON.stringify(S));
+  }catch(e){setSyncStatus('err','Push fail');if(manual)toast('Push failed','err');}
+}
+
+async function fbPull(manual){
+  if(!_fbUrl)return;
+  if(manual)setSyncStatus('syncing','Pulling…');
+  try{
+    var res=await fetch(fbNode());
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    var data=await res.json();
+    if(!data||!data.state)return;
+    if(data.ts&&data.ts>_lastRemoteTs){
+      _lastRemoteTs=data.ts;
+      S=data.state;
+      localStorage.setItem('auction_local_state',JSON.stringify(S));
+      refreshAll();
+      setSyncStatus('ok','Live');
+      el('fb-last-sync').textContent='Updated: '+new Date().toLocaleTimeString();
+      if(manual)toast('Pulled ✓','suc');
+      // Notify viewer if a player was just sold
+      if(!_isAdmin&&S.cur===null&&S.hist&&S.hist.length){
+        var last=S.hist[S.hist.length-1];
+        showSoldNotify(last.pn+' → '+last.tn+' ('+fmt(last.amt)+')');
+      }
+    }else{
+      setSyncStatus('ok','Live');
+      if(manual)toast('Already up to date','');
+    }
+  }catch(e){setSyncStatus('err','Poll fail');}
+}
+
+// Viewer: initial load with 3-strategy fetch
+async function viewerLoad(){
+  try{
+    // Try exact node first
+    var res=await fetch(fbNode());
+    var data=null;
+    if(res.ok){var d=await res.json();if(d&&d.state)data=d;}
+    // Fallback: /latest
+    if(!data){
+      var r2=await fetch(_fbUrl.replace(/\/+$/,'')+'/latest.json');
+      if(r2.ok){var d2=await r2.json();if(d2&&d2.state)data=d2;}
+    }
+    if(data&&data.state){
+      S=data.state;_lastRemoteTs=data.ts||0;
+      localStorage.setItem('auction_local_state',JSON.stringify(S));
+    }
+  }catch(e){}
+  refreshAll();
+  switchTab('auction');
+  startPolling();
+}
+
+function startPolling(){
+  stopPolling();
+  _pollTimer=setInterval(function(){fbPull(false);},POLL_INTERVAL);
+  fbPull(false);
+}
+function stopPolling(){if(_pollTimer){clearInterval(_pollTimer);_pollTimer=null;}}
+
+function fbDisconnect(){
+  if(!confirm('Disconnect Firebase? Local data stays.'))return;
+  stopPolling();_fbUrl='';
+  localStorage.removeItem(FB_URL_KEY);
+  setSyncStatus('local','Local');refreshSyncUI();
+  toast('Disconnected','');
+}
+
+// ══════════════════════════════════════════════════════
+// AUTO-SAVE (admin: debounced push on every state change)
+// ══════════════════════════════════════════════════════
+function autoSave(){
+  // Always save to localStorage
+  localStorage.setItem('auction_local_state',JSON.stringify(S));
+  if(_isAdmin&&_fbUrl){
+    clearTimeout(_pushTimer);
+    _pushTimer=setTimeout(function(){fbPush(false);},PUSH_DEBOUNCE);
+  }
+  // BroadcastChannel: instant tab-to-tab sync
+  try{
+    if(!_bc)_bc=new BroadcastChannel('auction_sync');
+    _bc.postMessage({type:'update',state:S,ts:Date.now()});
+  }catch(e){}
+}
+
+// ══════════════════════════════════════════════════════
+// SYNC UI HELPERS
+// ══════════════════════════════════════════════════════
+function setSyncStatus(state,label){
+  var dot=el('sdot'),lbl=el('slabel');
+  if(dot){dot.className='sdot '+state;}
+  if(lbl)lbl.textContent=label;
+}
+function refreshSyncUI(){
+  var connected=!!_fbUrl;
+  el('sync-connect-form').style.display=connected?'none':'block';
+  el('sync-connected-panel').style.display=connected?'block':'none';
+  if(connected){
+    el('fb-url-display').textContent=_fbUrl;
+    var inp=el('fb-url-inp');if(inp&&!inp.value)inp.value=_fbUrl;
+    buildShareLink();
+  }
+}
+function buildShareLink(){
+  var base=location.origin+location.pathname;
+  var link=base+'?view=1&fburl='+encodeURIComponent(_fbUrl);
+  var linkEl=el('fb-share-link');if(linkEl)linkEl.value=link;
+}
+function copyShareLink(){
+  var inp=el('fb-share-link');if(!inp)return;
+  try{navigator.clipboard.writeText(inp.value).then(function(){toast('Link copied! Share with participants 🎉','suc');});}
+  catch(e){inp.select();document.execCommand('copy');toast('Link copied!','suc');}
+}
+
+function openSyncModal(){refreshSyncUI();el('sync-modal').classList.add('open');}
+function closeSyncModal(){el('sync-modal').classList.remove('open');}
+
+// ══════════════════════════════════════════════════════
+// LOCAL BACKUP
+// ══════════════════════════════════════════════════════
+function exportStateJSON(){
+  var blob=new Blob([JSON.stringify({state:S,exported:new Date().toISOString()},null,2)],{type:'application/json'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='auction_backup_'+new Date().toISOString().slice(0,10)+'.json';a.click();
+  toast('Backup downloaded','suc');
+}
+function importStateJSON(e){
+  var file=e.target.files[0];if(!file)return;
+  var r=new FileReader();r.onload=function(ev){
+    try{
+      var d=JSON.parse(ev.target.result);
+      var ns=d.state||d;
+      if(!ns.players){alert('Invalid backup file.');return;}
+      if(!confirm('Replace all current auction data with this backup?'))return;
+      S=ns;autoSave();refreshAll();toast('Backup restored ✓','suc');
+    }catch(err){alert('Could not read file: '+err.message);}
+  };r.readAsText(file);e.target.value='';
+}
+
+// ══════════════════════════════════════════════════════
+// VIEWER — sold notification toast
+// ══════════════════════════════════════════════════════
+function showSoldNotify(msg){
+  var n=el('sold-notify');n.textContent='🏏 SOLD: '+msg;n.style.display='block';
+  setTimeout(function(){n.style.display='none';},4000);
+}
+
+// ══════════════════════════════════════════════════════
+// REFRESH ALL (renders all panels with current S)
+// ══════════════════════════════════════════════════════
+function refreshAll(){
+  renderPG();renderTL();renderGroupList();refreshGroupSelect();
+  // Re-render whichever auction panel is showing
+  var ap=document.querySelector('.panel.active');
+  if(ap){
+    if(ap.id==='panel-auction')renderAuction();
+    if(ap.id==='panel-results')renderResults();
+  }
+}
+
+// ══════════════════════════════════════════════════════
+// PATCH EXISTING FUNCTIONS TO CALL autoSave()
+// (wrap after state mutations)
+// ══════════════════════════════════════════════════════
+(function patchStateFns(){
+  var origAssign=window.assignPlayer||assignPlayer;
+  var origMark=window.markUnsold||markUnsold;
+  var origUndo=window.undoLast||undoLast;
+  var origAdd=window.addPlayers||addPlayers;
+  var origAddT=window.addTeams||addTeams;
+  var origReset=window.doReset||doReset;
+
+  // Re-define assignPlayer with autoSave hook
+  window.assignPlayer=function(){
+    if(!S.cur){toast('Pick a player first!','err');return;}
+    if(S.sel===null){toast('Select a team!','err');return;}
+    var t=S.teams[S.sel];
+    if(S.bid>t.budget-t.spent){toast(t.name+" can't afford "+fmt(S.bid),'err');return;}
+    if(t.players.length>=t.maxPlayers){toast(t.name+' is full!','err');return;}
+    if(S.cur.group){var glim=getGroupLimit(S.cur.group);if(glim>0&&teamGroupCount(t,S.cur.group)>=glim){toast(t.name+' reached '+S.cur.group+' limit','err');return;}}
+    var pi=S.players.findIndex(function(p){return p.name===S.cur.name;});
+    S.players[pi].status='sold';S.players[pi].soldTo=t.name;S.players[pi].soldAmount=S.bid;
+    t.spent+=S.bid;t.players.push({name:S.cur.name,photo:S.cur.photo,amount:S.bid});
+    S.hist.push({pi:pi,ti:S.sel,amt:S.bid,pn:S.cur.name,tn:t.name});
+    showSold(S.cur,t,S.bid);confetti();
+    S.cur=null;S.bid=0;S.sel=null;
+    el('spn').textContent='— Waiting —';el('sp-group-tag').innerHTML='';el('bdis').textContent='—';el('spb').textContent='Base: '+fmt(S.baseBid);
+    el('spp-wrap').innerHTML="<div class='spp-placeholder'>🏏</div>";
+    renderPG();renderAuction();checkReAuctionBtn();toast('Assigned!','suc');
+    autoSave();
+  };
+
+  window.markUnsold=function(){
+    if(!S.cur){toast('Pick a player first!','err');return;}
+    var pi=S.players.findIndex(function(p){return p.name===S.cur.name;});
+    S.players[pi].status='unsold';S.cur=null;S.bid=0;S.sel=null;
+    el('spn').textContent='— Waiting —';el('sp-group-tag').innerHTML='';el('bdis').textContent='—';
+    el('spp-wrap').innerHTML="<div class='spp-placeholder'>🏏</div>";
+    renderPG();renderAuction();checkReAuctionBtn();toast('Unsold','');
+    autoSave();
+  };
+
+  window.undoLast=function(){
+    if(!S.hist.length){toast('Nothing to undo','');return;}
+    var last=S.hist.pop();
+    S.players[last.pi].status='pending';S.players[last.pi].soldTo=null;S.players[last.pi].soldAmount=0;
+    var t=S.teams[last.ti];t.spent-=last.amt;t.players=t.players.filter(function(p){return p.name!==last.pn;});
+    renderPG();renderAuction();toast('Undo: '+last.pn,'suc');
+    autoSave();
+  };
+
+  window.addPlayers=function(){
+    var names=el('pi').value.split(/[\n,]+/).map(function(s){return s.trim();}).filter(Boolean);
+    var grp=el('pi-group')?el('pi-group').value:'';
+    var added=names.filter(function(n){return!S.players.find(function(p){return p.name===n;});});
+    if(!added.length){toast('No new players','');return;}
+    added.forEach(function(n){S.players.push({name:n,photo:null,status:'pending',group:grp});});
+    el('pi').value='';renderPG();toast(added.length+' added'+(grp?' → '+grp:''),'suc');
+    autoSave();
+  };
+
+  window.addTeams=function(){
+    var names=el('ti').value.split(/\n+/).map(function(s){return s.trim();}).filter(Boolean);
+    var added=names.filter(function(n){return!S.teams.find(function(t){return t.name===n;});});
+    if(!added.length){toast('No new teams','');return;}
+    added.forEach(function(n){S.teams.push({name:n,color:TC[S.teams.length%TC.length],logo:null,ownerName:'',ownerPhoto:null,budget:200000,maxPlayers:15,spent:0,players:[]});});
+    el('ti').value='';renderTL();toast(added.length+' teams added','suc');
+    autoSave();
+  };
+
+  window.doReset=function(){
+    el('conf-m').classList.remove('show');
+    S.players.forEach(function(p){p.status='pending';p.soldTo=null;p.soldAmount=0;});
+    S.teams.forEach(function(t){t.spent=0;t.players=[];});
+    S.cur=null;S.bid=0;S.sel=null;S.hist=[];S.auctionRound=1;S.isReAuction=false;
+    el('round-indicator').classList.remove('show');el('round-badge').style.display='none';
+    renderPG();switchTab('setup');toast('Reset!','');
+    autoSave();
+  };
+
+  window.startAuction=function(){
+    if(!S.players.filter(function(p){return p.status==='pending';}).length){toast('Add players first!','err');return;}
+    if(!S.teams.length){toast('Add teams first!','err');return;}
+    S.baseBid=+el('bb').value||10000;S.inc=+el('bi').value||1000;
+    S.cur=null;S.bid=0;S.sel=null;S.hist=[];S.auctionRound=1;S.isReAuction=false;
+    el('round-indicator').classList.remove('show');el('round-badge').style.display='none';
+    switchTab('auction');toast('Auction started!','suc');
+    autoSave();
+  };
+
+  window.startReAuction=function(){
+    var unsold=S.players.filter(function(p){return p.status==='unsold';});
+    if(!unsold.length){toast('No unsold players','err');return;}
+    unsold.forEach(function(p){p.status='pending';});
+    S.auctionRound++;S.isReAuction=true;S.cur=null;S.bid=0;S.sel=null;
+    el('round-indicator').classList.add('show');el('round-num').textContent=S.auctionRound;
+    el('round-badge').style.display='';el('round-badge').textContent='Round '+S.auctionRound;
+    el('reauction-btn').style.display='none';
+    renderPG();renderAuction();toast('Round '+S.auctionRound+' — '+unsold.length+' players re-entered','suc');
+    autoSave();
+  };
+
+})();
+
+// BroadcastChannel listener (viewer in same browser gets instant updates)
+try{
+  var _bc2=new BroadcastChannel('auction_sync');
+  _bc2.onmessage=function(ev){
+    if(ev.data&&ev.data.type==='update'&&!_isAdmin){
+      S=ev.data.state;refreshAll();
+    }
+  };
+}catch(e){}
+
+</script>
+</body>
+</html>
