@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Divinity Player AUCTION Live</title>
+<title>DBL 2026 Auction Live</title>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -243,7 +243,7 @@ body.view-mode .view-banner{display:flex!important;}
     <div class="gate-handle"></div>
     <div class="gate-hero">
       <span class="gate-emoji">🏏</span>
-      <div class="gate-title">Divinity Player AUCTION</div>
+      <div class="gate-title">DBL 2026 AUCTION</div>
       <div class="gate-sub" id="gate-auction-name">Live Auction Platform</div>
     </div>
 
@@ -437,7 +437,7 @@ body.view-mode .view-banner{display:flex!important;}
 
 <!-- Top bar -->
 <div class="topbar">
-  <div style="font-family:'Rajdhani',sans-serif;font-size:1.5rem;color:var(--gold);letter-spacing:4px;font-weight:700;">Divinity <span style="color:var(--red);">2026</span> <span style="color:var(--text2);font-size:1rem;">AUCTION</span></div>
+  <div style="font-family:'Rajdhani',sans-serif;font-size:1.5rem;color:var(--gold);letter-spacing:4px;font-weight:700;">DBL <span style="color:var(--red);">2026</span> <span style="color:var(--text2);font-size:1rem;">AUCTION</span></div>
   <div id="phase-badge" style="background:var(--gold);color:#000;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;padding:4px 11px;border-radius:6px;margin-left:auto;">Setup</div>
   <div id="round-badge" style="display:none;background:linear-gradient(135deg,var(--orange),#c2410c);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;padding:4px 11px;border-radius:6px;">Round 1</div>
   <button class="btn bgho edit-only" onclick="openSyncModal()" id="sync-topbar-btn" style="font-size:.65rem;padding:5px 11px;display:none">⚡ Sync</button>
@@ -1109,7 +1109,7 @@ function exportCSV(){
   });
   S.players.filter(function(p){return p.status==="unsold";}).forEach(function(p){c+='"UNSOLD","","'+p.name+'","'+(p.group||"")+'",0,"unsold"\n';});
   S.players.filter(function(p){return p.status==="pending";}).forEach(function(p){c+='"PENDING","","'+p.name+'","'+(p.group||"")+'",0,"pending"\n';});
-  var a=document.createElement("a");a.href="data:text/csv;charset=utf-8,"+encodeURIComponent(c);a.download="auction_results.csv";document.body.appendChild(a);a.click();document.body.removeChild(a);toast("Exported!","suc");
+  var a=document.createElement("a");a.href="data:text/csv;charset=utf-8,"+encodeURIComponent(c);a.download="dbl2026_auction_results.csv";document.body.appendChild(a);a.click();document.body.removeChild(a);toast("Exported!","suc");
 }
 
 function doReset(){
