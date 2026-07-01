@@ -145,6 +145,43 @@ body.view-mode #tab-setup{display:none!important;}
 body.view-mode .view-banner{display:flex!important;}
 .view-banner{display:none;background:linear-gradient(135deg,rgba(59,224,160,.1),rgba(91,156,246,.07));border:1px solid rgba(59,224,160,.25);border-radius:10px;padding:9px 15px;align-items:center;gap:9px;margin-bottom:13px;font-size:.78rem;color:var(--green);}
 
+
+/* ── Live blink animation ── */
+@keyframes liveblink{0%,100%{opacity:1;}50%{opacity:.25;}}
+
+/* ── Viewer mobile layout: single column, larger text ── */
+@media(max-width:900px){
+  .viewer-auction-grid{grid-template-columns:1fr!important;}
+  #sidebar{flex-direction:row!important;flex-wrap:wrap!important;}
+  .scard{min-width:140px;flex:1 1 140px;}
+}
+@media(max-width:640px){
+  .viewer-auction-grid{grid-template-columns:1fr!important;gap:10px!important;}
+  .player-name-display{font-size:clamp(1.4rem,7vw,2.2rem)!important;}
+  .bid-display{font-size:clamp(2rem,10vw,3.5rem)!important;}
+  #spp-wrap img,.spp-placeholder{width:clamp(90px,28vw,140px)!important;height:clamp(90px,28vw,140px)!important;}
+  .scard{min-width:unset;flex:1 1 calc(50% - 6px);}
+  .card{padding:14px!important;}
+  #view-unsold-grid{grid-template-columns:repeat(auto-fill,minmax(72px,1fr))!important;}
+}
+
+/* ── Viewer live-update flash ── */
+.live-flash{animation:liveflash .6s ease-out;}
+@keyframes liveflash{0%{box-shadow:0 0 0 0 rgba(78,203,160,.7);}100%{box-shadow:0 0 0 10px rgba(78,203,160,0);}}
+
+/* ── Viewer unsold panel ── */
+#view-unsold-card{background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:14px;position:relative;overflow:hidden;}
+#view-unsold-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--red),var(--blue));}
+#view-unsold-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:7px;margin-top:10px;}
+.view-unsold-item{background:var(--bg4);border:1px solid var(--border);border-radius:9px;padding:7px 5px;text-align:center;}
+.view-unsold-item.unsold{border-color:rgba(224,92,92,.4);background:rgba(224,92,92,.06);}
+.view-unsold-item img{width:38px;height:38px;border-radius:50%;object-fit:cover;display:block;margin:0 auto 4px;}
+.view-unsold-ph{width:38px;height:38px;border-radius:50%;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:.9rem;margin:0 auto 4px;}
+.view-unsold-name{font-size:.6rem;font-weight:600;line-height:1.2;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.view-unsold-badge{font-size:.5rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;margin-top:3px;padding:1px 5px;border-radius:8px;}
+.view-unsold-badge.pending{background:rgba(240,192,64,.1);color:var(--gold);border:1px solid rgba(240,192,64,.3);}
+.view-unsold-badge.unsold{background:rgba(224,92,92,.1);color:var(--red);border:1px solid rgba(224,92,92,.3);}
+
 /* Lightbox */
 #photo-lightbox{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.95);align-items:center;justify-content:center;cursor:zoom-out;backdrop-filter:blur(6px);}
 #photo-lightbox.show{display:flex;}
@@ -447,8 +484,10 @@ body.view-mode .view-banner{display:flex!important;}
 <div class="wrap">
   <div class="view-banner" id="view-banner">
     <span>👁</span>
-    <span><strong>View Only</strong> — You are watching this auction live. Editing is disabled.</span>
-    <button class="btn bgho" onclick="exitViewMode()" style="margin-left:auto;font-size:.64rem;padding:4px 9px;">Exit</button>
+    <span><strong>👁 LIVE VIEW ONLY</strong> — Watching DIVINITY Auction live. Editing is disabled.</span>
+    <span id="view-live-dot" style="margin-left:auto;display:flex;align-items:center;gap:5px;font-size:.65rem;color:var(--green);font-weight:700;letter-spacing:1px;">
+      <span style="width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block;animation:liveblink 1.2s infinite;"></span>LIVE
+    </span>
   </div>
 
   <div class="tabs">
@@ -547,7 +586,7 @@ body.view-mode .view-banner{display:flex!important;}
 
   <!-- ══════════════════ AUCTION TAB ══════════════════ -->
   <div class="panel" id="panel-auction">
-    <div class="al" style="display:grid;grid-template-columns:1fr 270px;gap:16px;">
+    <div class="al viewer-auction-grid" style="display:grid;grid-template-columns:1fr 270px;gap:16px;">
       <div style="display:flex;flex-direction:column;gap:14px;">
 
         <!-- Round indicator -->
@@ -608,15 +647,14 @@ body.view-mode .view-banner{display:flex!important;}
             </div>
           </div>
         </div>
-
-        <!-- Unsold / Pending players — visible to admin AND viewers -->
-        <div class="card" id="unsold-panel-card">
-          <div class="ttl" style="display:flex;align-items:center;justify-content:space-between;">
-            <span>📋 Unsold &amp; Pending Players</span>
-            <span id="unsold-count-badge" class="badge bu" style="font-size:.6rem;">0</span>
-          </div>
-          <div id="unsold-panel-grid" class="pg" style="margin-top:8px;"></div>
+      </div>
+      <!-- Viewer-visible unsold/pending players panel -->
+      <div id="view-unsold-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px;">
+          <span style="font-family:'Rajdhani',sans-serif;font-size:.9rem;letter-spacing:2px;color:var(--gold);font-weight:700;text-transform:uppercase;">📋 Players Remaining</span>
+          <span id="view-unsold-badge" style="font-size:.62rem;font-weight:700;color:var(--text2);"></span>
         </div>
+        <div id="view-unsold-grid"></div>
       </div>
       <div id="sidebar" style="display:flex;flex-direction:column;gap:9px;"></div>
     </div>
@@ -860,64 +898,87 @@ function startAuction(){
   el("round-indicator").classList.remove("show");el("round-badge").style.display="none";
   switchTab("auction");toast("Auction started!","suc");
 }
-function renderAuction(){renderSidebar();renderTBG();updateProg();refreshUndo();renderUnsoldPanel();renderCurrentPlayerCard();var ib=el("incbtn");if(ib)ib.textContent="+"+fmt(S.inc);checkReAuctionBtn();}
+function renderAuction(){
+  renderCurrentPlayerCard();
+  renderSidebar();
+  renderTBG();
+  updateProg();
+  refreshUndo();
+  renderViewerUnsoldPanel();
+  var ib=el("incbtn");if(ib)ib.textContent="+"+fmt(S.inc);
+  checkReAuctionBtn();
+}
 
-// Rebuilds the "Current Player" card purely from state (S.cur / S.bid).
-// This is what makes a viewer's screen show the live player-on-the-block
-// after a state pull, not just when the admin locally calls setCurrentPlayer().
+// Rebuilds the entire current-player card from S.cur / S.bid.
+// This is the critical path: viewers receive S via fbPull and need
+// this function (called via refreshAll → renderAuction) to actually
+// update the name, photo, bid display — none of which setCurrentPlayer()
+// can do for a viewer since setCurrentPlayer() only runs on the admin's machine.
 function renderCurrentPlayerCard(){
+  var spn=el("spn");var stag=el("sp-group-tag");var sp=el("spp-wrap");var bdis=el("bdis");var spb=el("spb");
+  if(!spn||!sp)return;
   if(S.cur){
-    el("spn").textContent=S.cur.name;
-    var stag=el("sp-group-tag");stag.innerHTML="";
-    if(S.cur.group){var gc=getGroupColor(S.cur.group);stag.innerHTML='<span class="group-tag" style="background:'+(gc?gc+"22":"rgba(0,0,0,.2)")+';color:'+(gc||"var(--text2)")+';border:1px solid '+(gc||"var(--border)")+';font-size:.68rem;padding:3px 12px;">'+S.cur.group+'</span>';}
-    var sp=el("spp-wrap");
-    // Only rebuild the photo if it's actually different, to avoid photo flicker on every poll
-    if(sp.getAttribute("data-cur")!==S.cur.name){
-      sp.innerHTML="";
-      if(S.cur.photo){var img=document.createElement("img");img.src=S.cur.photo;img.title="Click to view full size";sp.appendChild(img);}
-      else{var ph=document.createElement("div");ph.className="spp-placeholder";ph.textContent="🏏";sp.appendChild(ph);}
+    // Flash the card green if the current player just changed
+    var prev=sp.getAttribute("data-cur");
+    if(prev!==S.cur.name){
       sp.setAttribute("data-cur",S.cur.name);
+      sp.innerHTML="";
+      if(S.cur.photo){
+        var img=document.createElement("img");img.src=S.cur.photo;
+        img.title="Click to view full size";img.style.cssText="width:clamp(100px,30vw,150px);height:clamp(100px,30vw,150px);border-radius:50%;object-fit:cover;cursor:zoom-in;border:3px solid var(--gold);box-shadow:0 0 24px rgba(226,176,74,.3);";
+        sp.appendChild(img);
+      } else {
+        var ph=document.createElement("div");ph.className="spp-placeholder";ph.textContent="🏏";sp.appendChild(ph);
+      }
+      // Green flash on player card to signal live change to viewer
+      var card=sp.closest(".card");if(card)card.classList.add("live-flash");
+      setTimeout(function(){if(card)card.classList.remove("live-flash");},700);
     }
-    el("bdis").textContent=fmt(S.bid);
-    el("spb").textContent="Base: "+fmt(S.baseBid);
+    spn.textContent=S.cur.name;
+    stag.innerHTML="";
+    if(S.cur.group){
+      var gc=getGroupColor(S.cur.group);
+      stag.innerHTML='<span class="group-tag" style="background:'+(gc?gc+"22":"rgba(0,0,0,.2)")+';color:'+(gc||"var(--text2)")+';border:1px solid '+(gc||"var(--border)")+';font-size:.68rem;padding:3px 12px;">'+S.cur.group+"</span>";
+    }
+    bdis.textContent=fmt(S.bid);
+    spb.textContent="Base: "+fmt(S.baseBid);
   } else {
-    el("spn").textContent="— Waiting —";
-    el("sp-group-tag").innerHTML="";
-    el("bdis").textContent="—";
-    el("spb").textContent="Base: "+fmt(S.baseBid);
-    var sp2=el("spp-wrap");
-    if(sp2.getAttribute("data-cur")!=="__none__"){
-      sp2.innerHTML="<div class='spp-placeholder'>🏏</div>";
-      sp2.setAttribute("data-cur","__none__");
+    if(sp.getAttribute("data-cur")!=="__none__"){
+      sp.setAttribute("data-cur","__none__");
+      sp.innerHTML="<div class='spp-placeholder'>🏏</div>";
     }
+    spn.textContent="— Waiting —";
+    stag.innerHTML="";
+    bdis.textContent="—";
+    spb.textContent="Base: "+fmt(S.baseBid);
   }
 }
 
-// Shows pending (not yet auctioned) and unsold players live on the Auction tab,
-// visible to both admin and viewers — distinguishes the two statuses clearly.
-function renderUnsoldPanel(){
-  var grid=el("unsold-panel-grid");if(!grid)return;
-  var unsold=S.players.filter(function(p){return p.status==="unsold";});
+// Renders the viewer-facing Pending/Unsold player panel.
+// Shows pending (gold, not yet auctioned) and unsold (red) players.
+function renderViewerUnsoldPanel(){
+  var grid=el("view-unsold-grid");var badge=el("view-unsold-badge");if(!grid)return;
   var pending=S.players.filter(function(p){return p.status==="pending";});
-  var badge=el("unsold-count-badge");
+  var unsold=S.players.filter(function(p){return p.status==="unsold";});
   if(badge)badge.textContent=pending.length+" pending · "+unsold.length+" unsold";
-  var combined=unsold.concat(pending);
-  if(!combined.length){grid.innerHTML='<div style="grid-column:1/-1;color:var(--text3);text-align:center;padding:12px;font-size:.78rem;">No pending or unsold players.</div>';return;}
-  grid.innerHTML="";
-  // Show unsold first (more urgent/interesting), then pending
-  unsold.concat(pending).forEach(function(p){
-    var c=document.createElement("div");c.className="pcard";
-    c.style.cssText="opacity:"+(p.status==="unsold"?"0.85":"1")+";border-color:"+(p.status==="unsold"?"var(--red2)":"var(--border)")+";";
-    var photoHtml=p.photo?'<img src="'+p.photo+'" style="width:40px;height:40px;border-radius:50%;object-fit:cover;margin:0 auto 4px;display:block;cursor:zoom-in;" onclick="openLightbox(\''+p.photo.replace(/\\/g,"\\\\").replace(/'/g,"\\'")+'\',\''+p.name.replace(/'/g,"\\'")+'\')">'
-      :"<div style='width:40px;height:40px;border-radius:50%;margin:0 auto 4px;display:flex;align-items:center;justify-content:center;background:var(--bg2);font-size:.9rem;color:var(--text3);'>🏏</div>";
-    var grpHtml="";
-    if(p.group){var gc=getGroupColor(p.group);grpHtml='<div style="margin-top:2px;"><span class="group-tag" style="font-size:.5rem;background:'+(gc?gc+"22":"rgba(0,0,0,.2)")+';color:'+(gc||"var(--text3)")+';border:1px solid '+(gc||"var(--border)")+';">'+p.group+'</span></div>';}
-    var statusBadge='<span class="badge '+(p.status==="unsold"?"bu":"bp")+'" style="margin-top:3px;display:inline-block;">'+p.status+(p.status==="unsold"&&S.auctionRound>1?' R'+S.auctionRound:'')+'</span>';
-    c.innerHTML=photoHtml+"<div style='font-size:.66rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'>"+p.name+"</div>"+grpHtml+statusBadge;
-    grid.appendChild(c);
+  var all=pending.concat(unsold);
+  if(!all.length){
+    grid.innerHTML='<div style="grid-column:1/-1;color:var(--text3);font-size:.72rem;padding:10px;text-align:center;">All players have been auctioned!</div>';
+    return;
+  }
+  var h="";
+  all.forEach(function(p){
+    var photoHtml=p.photo
+      ?'<img src="'+p.photo+'" loading="lazy" alt="">'
+      :'<div class="view-unsold-ph">🏏</div>';
+    h+='<div class="view-unsold-item'+(p.status==="unsold"?" unsold":"")+'">'+
+      photoHtml+
+      '<div class="view-unsold-name">'+p.name+'</div>'+
+      '<div class="view-unsold-badge '+p.status+'">'+p.status+'</div>'+
+      '</div>';
   });
+  grid.innerHTML=h;
 }
-
 function updateProg(){var total=S.players.length,done=S.players.filter(function(p){return p.status!=="pending";}).length,pct=total?Math.round(done/total*100):0;el("ptxt").textContent=done+"/"+total;el("ppct").textContent=pct+"%";el("pbar").style.width=pct+"%";}
 
 // ── Set current player (shared by random pick + manual) ─
@@ -932,7 +993,8 @@ function setCurrentPlayer(p,customBid){
   S.bid=customBid||S.baseBid;S.sel=null;
   el("bdis").textContent=fmt(S.bid);el("spb").textContent="Base: "+fmt(S.baseBid);
   renderTBG();
-  if(typeof pushNow==='function')pushNow();else autoSave();
+  // Push immediately so viewers see the new player within one poll cycle
+  pushNow();
 }
 
 // ── Pick Random ─────────────────────────────────────────
@@ -1042,8 +1104,8 @@ function renderTBG(){
   renderGrpFilterBar();
 }
 
-function setCustomBid(){var v=parseInt(el("cbid").value);if(!v||v<S.baseBid){toast("Bid ≥ "+fmt(S.baseBid)+" required","err");return;}S.bid=v;el("bdis").textContent=fmt(v);el("cbid").value="";el("cbh").textContent="";renderTBG();if(typeof pushNow==='function')pushNow();else autoSave();}
-function incBid(){if(!S.cur){toast("Pick a player first!","err");return;}S.bid+=S.inc;el("bdis").textContent=fmt(S.bid);renderTBG();if(typeof pushNow==='function')pushNow();else autoSave();}
+function setCustomBid(){var v=parseInt(el("cbid").value);if(!v||v<S.baseBid){toast("Bid ≥ "+fmt(S.baseBid)+" required","err");return;}S.bid=v;el("bdis").textContent=fmt(v);el("cbid").value="";el("cbh").textContent="";renderTBG();pushNow();}
+function incBid(){if(!S.cur){toast("Pick a player first!","err");return;}S.bid+=S.inc;el("bdis").textContent=fmt(S.bid);renderTBG();pushNow();}
 
 function assignPlayer(){
   if(!S.cur){toast("Pick a player first!","err");return;}
@@ -1329,19 +1391,16 @@ async function fbConnect(){
   _fbUrl=url;
   try{
     var base=_fbUrl.replace(/\/+$/,'');
-    // Test READ access
-    var resRead=await fetch(base+'/.json?shallow=true');
-    if(resRead.status===401||resRead.status===403)throw new Error('Read access denied ('+resRead.status+'). Set ".read": true in Firebase Rules.');
-    if(!resRead.ok)throw new Error('Read test failed (HTTP '+resRead.status+').');
-    // Test WRITE access — this is what actually matters for the admin pushing updates.
-    // Many "Connected" failures happen because read is open but write requires auth,
-    // which a read-only check would never catch.
+    var rRead=await fetch(base+'/.json?shallow=true');
+    if(rRead.status===401||rRead.status===403)throw new Error('Read denied ('+rRead.status+'). Set ".read":true in Firebase Rules.');
+    if(!rRead.ok)throw new Error('Read failed (HTTP '+rRead.status+').');
+    // Test write — connection succeeds but every push will fail if write is blocked.
     var pingUrl=base+'/_writetest.json';
-    var resWrite=await fetch(pingUrl,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(Date.now())});
-    if(resWrite.status===401||resWrite.status===403)throw new Error('Write access denied ('+resWrite.status+'). Set ".write": true in Firebase Rules — admin pushes will fail otherwise.');
-    if(!resWrite.ok)throw new Error('Write test failed (HTTP '+resWrite.status+').');
-    // Clean up the test key so it doesn't clutter the database
+    var rWrite=await fetch(pingUrl,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(Date.now())});
+    if(rWrite.status===401||rWrite.status===403)throw new Error('Write denied ('+rWrite.status+'). Set ".write":true in Firebase Rules — pushes will fail otherwise.');
+    if(!rWrite.ok)throw new Error('Write test failed (HTTP '+rWrite.status+').');
     fetch(pingUrl,{method:'DELETE'}).catch(function(){});
+    _pushFailNotified=false;
     localStorage.setItem(FB_URL_KEY,url);
     setSyncStatus('ok','Live');
     refreshSyncUI();
@@ -1353,8 +1412,6 @@ async function fbConnect(){
     _fbUrl='';statusEl.textContent='✗ '+err.message;statusEl.style.color='var(--red)';setSyncStatus('err','Error');
   }finally{btn.disabled=false;btn.textContent='Connect';}
 }
-
-var _pushFailNotified=false; // avoid spamming the admin with repeated failure toasts
 
 async function fbPush(manual){
   if(!_fbUrl)return;
@@ -1369,7 +1426,6 @@ async function fbPush(manual){
     setSyncStatus('ok','Live');
     el('fb-last-sync').textContent='Last push: '+new Date().toLocaleTimeString();
     if(manual)toast('Pushed ✓','suc');
-    _pushFailNotified=false; // reset once a push succeeds again
     // Also save to localStorage as backup
     localStorage.setItem('auction_local_state',JSON.stringify(S));
   }catch(e){
@@ -1377,10 +1433,8 @@ async function fbPush(manual){
     if(manual){
       toast('Push failed: '+e.message,'err');
     } else if(!_pushFailNotified){
-      // First silent auto-push failure — surface it loudly so the admin notices
-      // sync is broken instead of finding out viewers never got updates.
       _pushFailNotified=true;
-      toast('⚠ Sync failed — viewers are NOT seeing updates! Check Firebase rules.','err');
+      toast('⚠ Sync failed — viewers NOT seeing updates! Check Firebase rules.','err');
     }
   }
 }
@@ -1393,16 +1447,20 @@ async function fbPull(manual){
     if(!res.ok)throw new Error('HTTP '+res.status);
     var data=await res.json();
     if(!data||!data.state)return;
-    if(data.ts&&data.ts>_lastRemoteTs){
-      _lastRemoteTs=data.ts;
+    // Always apply fresh state for viewers; for admin only refresh on new ts.
+    var isNewer=(data.ts&&data.ts>_lastRemoteTs)||(_lastRemoteTs===0);
+    var shouldApply=isNewer||(!_isAdmin);
+    if(shouldApply){
+      if(isNewer)_lastRemoteTs=data.ts||_lastRemoteTs;
+      var prevCurName=S.cur?S.cur.name:null;
       S=data.state;
       localStorage.setItem('auction_local_state',JSON.stringify(S));
       refreshAll();
       setSyncStatus('ok','Live');
       el('fb-last-sync').textContent='Updated: '+new Date().toLocaleTimeString();
       if(manual)toast('Pulled ✓','suc');
-      // Notify viewer if a player was just sold
-      if(!_isAdmin&&S.cur===null&&S.hist&&S.hist.length){
+      // Notify viewer if a player was just sold (cur went from someone to null)
+      if(!_isAdmin&&S.cur===null&&prevCurName&&S.hist&&S.hist.length){
         var last=S.hist[S.hist.length-1];
         showSoldNotify(last.pn+' → '+last.tn+' ('+fmt(last.amt)+')');
       }
@@ -1453,6 +1511,23 @@ function fbDisconnect(){
 // ══════════════════════════════════════════════════════
 // AUTO-SAVE (admin: debounced push on every state change)
 // ══════════════════════════════════════════════════════
+var _pushFailNotified=false;
+
+// Immediate push (no debounce) — used for time-critical events so viewers
+// see the new state within one poll cycle (~2.5s) rather than after the
+// debounce window (1.8s) + poll interval (2.5s) = up to ~4.3s total lag.
+function pushNow(){
+  localStorage.setItem('auction_local_state',JSON.stringify(S));
+  if(_isAdmin&&_fbUrl){
+    clearTimeout(_pushTimer);
+    fbPush(false);
+  }
+  try{
+    if(!_bc)_bc=new BroadcastChannel('auction_sync');
+    _bc.postMessage({type:'update',state:S,ts:Date.now()});
+  }catch(e){}
+}
+
 function autoSave(){
   // Always save to localStorage
   localStorage.setItem('auction_local_state',JSON.stringify(S));
@@ -1461,21 +1536,6 @@ function autoSave(){
     _pushTimer=setTimeout(function(){fbPush(false);},PUSH_DEBOUNCE);
   }
   // BroadcastChannel: instant tab-to-tab sync
-  try{
-    if(!_bc)_bc=new BroadcastChannel('auction_sync');
-    _bc.postMessage({type:'update',state:S,ts:Date.now()});
-  }catch(e){}
-}
-
-// Immediate (non-debounced) push for time-sensitive live-bidding moments —
-// e.g. a new player going up for auction, or the current bid changing.
-// Viewers should see these within a couple seconds, not wait out a debounce window.
-function pushNow(){
-  localStorage.setItem('auction_local_state',JSON.stringify(S));
-  if(_isAdmin&&_fbUrl){
-    clearTimeout(_pushTimer); // cancel any pending debounced push, we're pushing right now
-    fbPush(false);
-  }
   try{
     if(!_bc)_bc=new BroadcastChannel('auction_sync');
     _bc.postMessage({type:'update',state:S,ts:Date.now()});
