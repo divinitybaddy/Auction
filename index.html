@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>DCL 2026 Auction Live</title>
-<meta name="description" content="Divinity Cricket League 2026 — Live Auction Dashboard">
+<title>DIVINITY Player Auction Live</title>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -267,25 +266,6 @@ body.view-mode .view-banner{display:flex!important;}
 /* ─── VIEWER BANNER UPDATE ───────────────────────────── */
 #sold-notify{display:none;position:fixed;top:70px;left:50%;transform:translateX(-50%);z-index:1000;background:var(--bg3);border:2px solid var(--gold);border-radius:12px;padding:10px 20px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.9rem;color:var(--gold);letter-spacing:2px;box-shadow:0 4px 24px rgba(0,0,0,.6);animation:fadeUp .3s ease-out}
 @keyframes fadeUp{from{opacity:0;transform:translateX(-50%) translateY(10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
-
-/* ── Admin badge / menu / change-password (from Kishu v6) ── */
-.ag-label{display:block;font-size:.63rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:6px;text-align:left;font-weight:600;}
-.ag-input-wrap{position:relative;margin-bottom:6px;}
-.ag-input{width:100%;background:var(--bg2);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:10px 40px 10px 14px;font-size:.95rem;outline:none;text-align:center;letter-spacing:3px;transition:border-color .2s;}
-.ag-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--glow);}
-.ag-eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);cursor:pointer;color:var(--text3);font-size:.9rem;user-select:none;transition:color .15s;}
-.ag-eye:hover{color:var(--gold);}
-.ag-err{font-size:.7rem;color:var(--red);min-height:16px;margin-bottom:10px;text-align:left;letter-spacing:.5px;}
-.admin-badge{display:none;background:rgba(226,176,74,.15);border:1px solid rgba(226,176,74,.35);border-radius:6px;padding:3px 10px;font-size:.62rem;color:var(--gold);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;align-items:center;gap:5px;cursor:pointer;}
-.admin-badge.show{display:flex;}
-.admin-badge:hover{background:rgba(226,176,74,.25);}
-#chpw-m{display:none;position:fixed;inset:0;z-index:9500;background:rgba(0,0,0,.85);align-items:center;justify-content:center;backdrop-filter:blur(6px);}
-#chpw-m.show{display:flex;}
-.admin-menu-item{padding:8px 12px;border-radius:7px;font-size:.78rem;cursor:pointer;color:var(--text2);transition:all .12s;letter-spacing:.5px;}
-.admin-menu-item:hover{background:var(--bg2);color:var(--text);}
-/* viewer live-status text */
-#view-live-time{font-size:.62rem;color:var(--text3);font-weight:600;letter-spacing:.5px;margin-right:6px}
-#view-live-time.stale{color:var(--orange)}
 </style>
 </head>
 <body>
@@ -297,8 +277,8 @@ body.view-mode .view-banner{display:flex!important;}
     <div class="gate-handle"></div>
     <div class="gate-hero">
       <span class="gate-emoji">🏏</span>
-      <div class="gate-title">DCL 2026 AUCTION</div>
-      <div class="gate-sub" id="gate-auction-name">Divinity Cricket League · Live Auction</div>
+      <div class="gate-title">DIVINITY Player AUCTION</div>
+      <div class="gate-sub" id="gate-auction-name">Live Auction Platform</div>
     </div>
 
     <!-- Viewer entry -->
@@ -330,37 +310,12 @@ body.view-mode .view-banner{display:flex!important;}
   </div>
 </div>
 
-<!-- ── Change Password Modal ──────────────────────────── -->
-<div id="chpw-m">
-  <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:16px;padding:26px 28px;max-width:340px;width:95%;box-shadow:0 20px 60px rgba(0,0,0,.7);">
-    <div style="font-family:'Rajdhani',sans-serif;font-size:1.1rem;color:var(--gold);font-weight:700;letter-spacing:2px;margin-bottom:16px;">🔑 CHANGE PASSWORD</div>
-    <label class="ag-label">Current Password</label>
-    <div class="ag-input-wrap" style="margin-bottom:12px;">
-      <input class="ag-input" type="password" id="chpw-cur" placeholder="Current password" style="text-align:left;letter-spacing:1px;">
-      <span class="ag-eye" onclick="togglePwVis('chpw-cur')">👁</span>
-    </div>
-    <label class="ag-label">New Password</label>
-    <div class="ag-input-wrap" style="margin-bottom:6px;">
-      <input class="ag-input" type="password" id="chpw-new" placeholder="Min 6 characters" style="text-align:left;letter-spacing:1px;">
-      <span class="ag-eye" onclick="togglePwVis('chpw-new')">👁</span>
-    </div>
-    <div class="ag-input-wrap" style="margin-bottom:6px;">
-      <input class="ag-input" type="password" id="chpw-con" placeholder="Confirm new password" style="text-align:left;letter-spacing:1px;">
-    </div>
-    <div class="ag-err" id="chpw-err" style="margin-bottom:12px;"></div>
-    <div style="display:flex;gap:9px;">
-      <button class="btn bgho" onclick="el('chpw-m').classList.remove('show')" style="flex:1;">Cancel</button>
-      <button class="btn bpri" onclick="doChangePassword()" style="flex:1;">Save</button>
-    </div>
-  </div>
-</div>
-
 <!-- ─── SYNC MODAL ────────────────────────────────────── -->
 <div id="sync-modal">
   <div class="sync-sheet">
     <div class="gate-handle"></div>
     <div style="font-family:'Rajdhani',sans-serif;font-size:1.1rem;color:var(--gold);letter-spacing:2px;font-weight:700;margin-bottom:4px">⚡ Firebase Live Sync</div>
-    <div style="font-size:.75rem;color:var(--text2);margin-bottom:1.25rem;line-height:1.7">Connect Firebase Realtime Database — free, no request limits. The admin pushes live every 5 seconds and viewers update automatically, no refresh needed.</div>
+    <div style="font-size:.75rem;color:var(--text2);margin-bottom:1.25rem;line-height:1.7">Connect Firebase Realtime Database — free, no request limits, syncs to all viewers instantly.</div>
 
     <div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:14px">
       <div style="font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Setup (3 min, free)</div>
@@ -393,7 +348,7 @@ body.view-mode .view-banner{display:flex!important;}
 
     <div id="sync-connected-panel" style="display:none">
       <div style="background:rgba(78,203,160,.08);border:1px solid rgba(78,203,160,.3);border-radius:9px;padding:10px 12px;margin-bottom:12px;font-size:.75rem;color:var(--green)">
-        ✅ <strong>Firebase connected!</strong> Changes are pushed live (every 5 s) and viewers update automatically.<br>
+        ✅ <strong>Firebase connected!</strong> All changes sync live to viewers automatically.<br>
         <span style="font-size:.68rem;opacity:.75;word-break:break-all" id="fb-url-display"></span>
       </div>
       <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px">
@@ -516,26 +471,18 @@ body.view-mode .view-banner{display:flex!important;}
 
 <!-- Top bar -->
 <div class="topbar">
-  <div style="font-family:'Rajdhani',sans-serif;font-size:1.5rem;color:var(--gold);letter-spacing:4px;font-weight:700;">DCL <span style="color:var(--red);">2026</span> <span style="color:var(--text2);font-size:1rem;">AUCTION</span></div>
+  <div style="font-family:'Rajdhani',sans-serif;font-size:1.5rem;color:var(--gold);letter-spacing:4px;font-weight:700;">DIVINITY AUCTION <span style="color:var(--red);">2026</span> <span style="color:var(--text2);font-size:1rem;">AUCTION</span></div>
   <div id="phase-badge" style="background:var(--gold);color:#000;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;padding:4px 11px;border-radius:6px;margin-left:auto;">Setup</div>
   <div id="round-badge" style="display:none;background:linear-gradient(135deg,var(--orange),#c2410c);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;padding:4px 11px;border-radius:6px;">Round 1</div>
   <button class="btn bgho edit-only" onclick="openSyncModal()" id="sync-topbar-btn" style="font-size:.65rem;padding:5px 11px;display:none">⚡ Sync</button>
-  <button id="view-toggle-btn" class="btn bgho edit-only" onclick="toggleViewMode()" style="font-size:.65rem;padding:5px 11px;">👁 Viewer Mode</button>
-  <div class="admin-badge" id="admin-badge" onclick="openAdminMenu()" title="Admin options">🔑 ADMIN <span style="font-size:.55rem;opacity:.7;">▾</span></div>
-  <div id="admin-menu" style="display:none;position:fixed;top:54px;right:16px;background:var(--bg3);border:1px solid var(--border2);border-radius:12px;padding:8px;z-index:400;min-width:180px;box-shadow:0 12px 40px rgba(0,0,0,.6);">
-    <div style="font-size:.6rem;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;padding:4px 10px 8px;border-bottom:1px solid var(--border);margin-bottom:6px;">Admin Actions</div>
-    <div class="admin-menu-item" onclick="openChpw()">🔑 Change Password</div>
-    <div class="admin-menu-item" onclick="closeAdminMenu();gateLogout()">🚪 Logout</div>
-  </div>
+  <button class="btn bgho" onclick="gateLogout()" id="logout-btn" style="font-size:.65rem;padding:5px 11px;display:none">🚪 Logout</button>
 </div>
 
 <div class="wrap">
   <div class="view-banner" id="view-banner">
     <span>👁</span>
-    <span><strong>👁 LIVE VIEW ONLY</strong> — Watching the DCL 2026 Auction live. Editing is disabled.</span>
-    <button class="btn bgho" id="view-banner-btn" onclick="bannerAction()" style="margin-left:auto;font-size:.64rem;padding:4px 9px;">🔑 Admin Login</button>
-    <span id="view-live-time"></span>
-    <span id="view-live-dot" style="display:flex;align-items:center;gap:5px;font-size:.65rem;color:var(--green);font-weight:700;letter-spacing:1px;">
+    <span><strong>👁 LIVE VIEW ONLY</strong> — Watching DIVINITY Auction live. Editing is disabled.</span>
+    <span id="view-live-dot" style="margin-left:auto;display:flex;align-items:center;gap:5px;font-size:.65rem;color:var(--green);font-weight:700;letter-spacing:1px;">
       <span style="width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block;animation:liveblink 1.2s infinite;"></span>LIVE
     </span>
   </div>
@@ -749,17 +696,8 @@ function toast(msg,type){
   t.classList.add("show");clearTimeout(_tt);_tt=setTimeout(function(){t.classList.remove("show");},2800);
 }
 
-function toggleViewMode(){isViewMode=true;document.body.classList.add("view-mode");var ap=document.querySelector(".panel.active");if(ap&&ap.id==="panel-setup")switchTab("auction");renderPG();renderTL();updateBannerBtn();toast("Viewer mode on","suc");}
-function exitViewMode(){
-  // Only admin can exit view mode
-  if(!_isAdmin){ toast("Admin login required to edit","err"); return; }
-  isViewMode=false;document.body.classList.remove("view-mode");renderPG();renderTL();updateBannerBtn();toast("Editing enabled","suc");
-}
-function updateBannerBtn(){var b=el("view-banner-btn");if(b)b.textContent=_isAdmin?"✏️ Back to Admin":"🔑 Admin Login";}
-function bannerAction(){
-  if(_isAdmin){exitViewMode();return;}
-  gateLogout();gateShowAdmin();
-}
+function toggleViewMode(){isViewMode=true;document.body.classList.add("view-mode");var ap=document.querySelector(".panel.active");if(ap&&ap.id==="panel-setup")switchTab("auction");toast("Viewer mode on","suc");}
+function exitViewMode(){isViewMode=false;document.body.classList.remove("view-mode");}
 
 function switchTab(n){
   ["setup","auction","results"].forEach(function(x){
@@ -1294,7 +1232,7 @@ function exportCSV(){
   });
   S.players.filter(function(p){return p.status==="unsold";}).forEach(function(p){c+='"UNSOLD","","'+p.name+'","'+(p.group||"")+'",0,"unsold"\n';});
   S.players.filter(function(p){return p.status==="pending";}).forEach(function(p){c+='"PENDING","","'+p.name+'","'+(p.group||"")+'",0,"pending"\n';});
-  var a=document.createElement("a");a.href="data:text/csv;charset=utf-8,"+encodeURIComponent(c);a.download="dcl2026_auction_results.csv";document.body.appendChild(a);a.click();document.body.removeChild(a);toast("Exported!","suc");
+  var a=document.createElement("a");a.href="data:text/csv;charset=utf-8,"+encodeURIComponent(c);a.download="Player_auction_results.csv";document.body.appendChild(a);a.click();document.body.removeChild(a);toast("Exported!","suc");
 }
 
 function doReset(){
@@ -1311,73 +1249,24 @@ function doReset(){
 // ══════════════════════════════════════════════════════
 // CONSTANTS
 // ══════════════════════════════════════════════════════
-var STORAGE_KEY_HASH='dbl2026_admin_hash';
-var SESSION_KEY='dbl2026_admin_session';
-var DEFAULT_ADMIN_PW='Kishu@2026';   // change via Admin menu → Change Password
+var ADMIN_PW_KEY='auction_admin_pw';
 var FB_URL_KEY='auction_fb_url';
-var FB_URL_VIEWER_KEY='auction_fb_url_viewer';
 var AUCTION_NODE='auction_state';
-var POLL_INTERVAL=5000;        // viewers check for updates every 5 s
-var HEARTBEAT_INTERVAL=5000;   // admin pushes live state every 5 s
+var POLL_INTERVAL=2500;
 var PUSH_DEBOUNCE=1800;
 var _fbUrl='';
 var _pollTimer=null;
-var _hbTimer=null;
 var _pushTimer=null;
 var _lastRemoteTs=0;
 var _isAdmin=false;
 var _bc=null;
-var _dirty=false;          // admin: local change not yet pushed in full
-var _lastChangeTs=0;       // admin: ts of the latest local change
-var _lastPushedTs=0;       // admin: ts of the latest full push that succeeded
-var _pushing=false;
-var _pulling=false;
-var _lastHb=null;          // viewer: last heartbeat value seen
-var _hbSameCount=0;        // viewer: polls in a row with no heartbeat change
-
-// ── Admin password (SHA-256 hash in localStorage, from Kishu v6) ──
-function _sha256fallback(s){
-  function r(n,x){return (x>>>n)|(x<<(32-n));}
-  var K=[],H=[],i,j,p=0,isP={};
-  for(var c=2;p<64;c++){if(!isP[c]){for(i=0;i<313;i+=c)isP[i]=c;K[p]=(Math.pow(c,.5)*4294967296)|0;H[p++]=(Math.pow(c,1/3)*4294967296)|0;}}
-  var b=unescape(encodeURIComponent(s)),l=b.length,w=[];
-  b+='\x80';while(b.length%64-56)b+='\x00';
-  for(i=0;i<b.length;i++){j=b.charCodeAt(i);w[i>>2]|=j<<((3-i)%4)*8;}
-  w[w.length]=((l*8)/4294967296)|0;w[w.length]=(l*8)|0;
-  var h=H.slice(0,8);
-  for(j=0;j<w.length;){
-    var W=w.slice(j,j+=16),o=h.slice(0);
-    for(i=0;i<64;i++){
-      var w15=W[i-15],w2=W[i-2],a=o[0],e=o[4];
-      var t1=o[7]+(r(6,e)^r(11,e)^r(25,e))+((e&o[5])^(~e&o[6]))+K[i]+(W[i]=(i<16)?W[i]:(W[i-16]+(r(7,w15)^r(18,w15)^(w15>>>3))+W[i-7]+(r(17,w2)^r(19,w2)^(w2>>>10)))|0);
-      var t2=(r(2,a)^r(13,a)^r(22,a))+((a&o[1])^(a&o[2])^(o[1]&o[2]));
-      o=[(t1+t2)|0].concat(o);o[4]=(o[4]+t1)|0;o.pop();
-    }
-    for(i=0;i<8;i++)h[i]=(h[i]+o[i])|0;
-  }
-  var out='';for(i=0;i<8;i++)for(j=3;j+1;j--){var bb=(h[i]>>(j*8))&255;out+=(bb<16?'0':'')+bb.toString(16);}
-  return out;
-}
-async function sha256(str){
-  try{
-    if(window.crypto&&crypto.subtle){
-      var buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str));
-      return Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0');}).join('');
-    }
-  }catch(e){}
-  return _sha256fallback(str);
-}
-async function initAdminHash(){
-  if(!localStorage.getItem(STORAGE_KEY_HASH)){
-    localStorage.setItem(STORAGE_KEY_HASH,await sha256(DEFAULT_ADMIN_PW));
-  }
-}
+var _adminPw='admin2026'; // Default — admin changes this after first login
 
 // ══════════════════════════════════════════════════════
 // GATE
 // ══════════════════════════════════════════════════════
-(async function initGate(){
-  await initAdminHash();
+(function initGate(){
+  // Check URL params — viewer link has ?view=1&fburl=...
   var params=new URLSearchParams(location.search);
   var urlFb=params.get('fburl');
   var isViewParam=params.get('view')==='1';
@@ -1385,15 +1274,11 @@ async function initAdminHash(){
   if(urlFb&&isViewParam){
     // Viewer arrived via share link
     _fbUrl=decodeURIComponent(urlFb);
-    try{localStorage.setItem(FB_URL_VIEWER_KEY,_fbUrl);}catch(e){}
     _isAdmin=false;
-    el('gate').classList.add('gone');
     enterViewer();
-  } else if(sessionStorage.getItem(SESSION_KEY)==='1'){
-    // Admin session survives page reload (cleared when the tab closes)
-    _isAdmin=true;
-    el('gate').classList.add('gone');
-    enterAdmin();
+  } else {
+    // Show gate
+    // gate is visible by default via CSS (#gate{display:flex}) — no inline style needed
   }
 })();
 
@@ -1415,69 +1300,34 @@ function gateTogglePw(){
 
 function gateEnterViewer(){
   _isAdmin=false;
-  if(!_fbUrl)_fbUrl=localStorage.getItem(FB_URL_VIEWER_KEY)||localStorage.getItem(FB_URL_KEY)||'';
   el('gate').classList.add('gone');
   enterViewer();
 }
 
-async function gateAdminSubmit(){
+function gateAdminSubmit(){
   var pw=el('gate-pw').value;
-  if(!pw){el('gate-err').textContent='Enter the admin password.';return;}
-  await initAdminHash();
-  var stored=localStorage.getItem(STORAGE_KEY_HASH);
-  var entered=await sha256(pw);
-  if(entered!==stored){
+  var stored=localStorage.getItem(ADMIN_PW_KEY)||_adminPw;
+  if(pw!==stored){
     el('gate-pw').classList.add('err');
     el('gate-err').textContent='Incorrect password.';
     setTimeout(function(){el('gate-pw').classList.remove('err');},400);
     return;
   }
-  sessionStorage.setItem(SESSION_KEY,'1');
   _isAdmin=true;
   el('gate').classList.add('gone');
   enterAdmin();
-  toast('Admin access granted 🔓','suc');
 }
-
-// ── Admin menu + change password (from Kishu v6) ──
-function openAdminMenu(){var m=el('admin-menu');m.style.display=m.style.display==='none'?'block':'none';}
-function closeAdminMenu(){el('admin-menu').style.display='none';}
-document.addEventListener('click',function(e){
-  var menu=el('admin-menu'),badge=el('admin-badge');
-  if(menu&&menu.style.display!=='none'&&!menu.contains(e.target)&&!badge.contains(e.target))closeAdminMenu();
-});
-function openChpw(){
-  closeAdminMenu();
-  el('chpw-cur').value='';el('chpw-new').value='';el('chpw-con').value='';
-  el('chpw-err').textContent='';
-  el('chpw-m').classList.add('show');
-}
-async function doChangePassword(){
-  var cur=el('chpw-cur').value,nw=el('chpw-new').value,con=el('chpw-con').value,errEl=el('chpw-err');
-  if(!cur||!nw||!con){errEl.textContent='All fields are required.';return;}
-  if(nw.length<6){errEl.textContent='New password must be at least 6 characters.';return;}
-  if(nw!==con){errEl.textContent='Passwords do not match.';return;}
-  if((await sha256(cur))!==localStorage.getItem(STORAGE_KEY_HASH)){errEl.textContent='Current password is incorrect.';return;}
-  localStorage.setItem(STORAGE_KEY_HASH,await sha256(nw));
-  el('chpw-m').classList.remove('show');
-  toast('Password updated successfully ✓','suc');
-}
-function togglePwVis(inputId){var inp=el(inputId);if(inp)inp.type=inp.type==='password'?'text':'password';}
 
 function gateLogout(){
-  stopPolling();stopHeartbeat();
-  sessionStorage.removeItem(SESSION_KEY);
-  _isAdmin=false;_fbUrl='';
+  stopPolling();
+  _isAdmin=false;
   el('sync-pill').style.display='none';
   el('sync-topbar-btn').style.display='none';
-  el('admin-badge').classList.remove('show');
-  closeAdminMenu();
-  el('gate-pw').value='';
+  el('logout-btn').style.display='none';
+  // Reset to gate
   el('gate').classList.remove('gone');
   gateShowViewer();
   document.body.classList.add('view-mode');
-  isViewMode=true;
-  updateBannerBtn();
 }
 
 function enterAdmin(){
@@ -1486,25 +1336,15 @@ function enterAdmin(){
   isViewMode=false;
   el('sync-pill').style.display='flex';
   el('sync-topbar-btn').style.display='';
-  el('admin-badge').classList.add('show');
-  el('view-toggle-btn').style.display='';
-  updateBannerBtn();
+  el('logout-btn').style.display='';
   // Load stored Firebase URL
   _fbUrl=localStorage.getItem(FB_URL_KEY)||'';
+  if(_fbUrl){setSyncStatus('ok','Live');startPolling();}else{setSyncStatus('local','Local');}
   // Load any saved state
-  var hadSaved=false;
   var saved=localStorage.getItem('auction_local_state');
-  if(saved){try{var ps=JSON.parse(saved);if(ps&&ps.players){S=ps;hadSaved=true;}}catch(e){}}
+  if(saved){try{var ps=JSON.parse(saved);if(ps&&ps.players)S=ps;}catch(e){}}
   refreshAll();
   switchTab('setup');
-  if(_fbUrl){
-    setSyncStatus('syncing','Starting…');
-    if(hadSaved){markDirty();}          // republish our state so viewers are current
-    else{fbPull(true);}                 // fresh browser: adopt whatever is already live
-    startHeartbeat();
-  }else{
-    setSyncStatus('local','Local');
-  }
 }
 
 function enterViewer(){
@@ -1512,12 +1352,11 @@ function enterViewer(){
   document.body.classList.add('view-mode');
   isViewMode=true;
   el('sync-pill').style.display='flex';
-  el('admin-badge').classList.remove('show');
+  el('logout-btn').style.display='none';
   el('sync-topbar-btn').style.display='none';
-  updateBannerBtn();
 
   if(_fbUrl){
-    setSyncStatus('syncing','Connecting…');
+    setSyncStatus('ok','Live');
     viewerLoad();
   } else {
     setSyncStatus('local','Local');
@@ -1560,7 +1399,8 @@ async function fbConnect(){
     localStorage.setItem(FB_URL_KEY,url);
     setSyncStatus('ok','Live');
     refreshSyncUI();
-    if(_isAdmin){markDirty();startHeartbeat();fbPush(false);}else{startPolling();}
+    startPolling();
+    if(_isAdmin)fbPush(false);
     statusEl.textContent='✓ Connected! (read + write verified)';statusEl.style.color='var(--green)';
     toast('Firebase connected ✓','suc');
   }catch(err){
@@ -1568,30 +1408,20 @@ async function fbConnect(){
   }finally{btn.disabled=false;btn.textContent='Connect';}
 }
 
-function fbBase(){return _fbUrl.replace(/\/+$/,'');}
-function fbMetaUrl(){return fbBase()+'/'+AUCTION_NODE+'/meta.json';}
-var _JSON_HDR={'Content-Type':'application/json'};
-
-// ── ADMIN: full push (state + ts + heartbeat) ──
 async function fbPush(manual){
-  if(!_fbUrl||_pushing)return;
-  _pushing=true;
+  if(!_fbUrl)return;
   if(manual)setSyncStatus('syncing','Pushing…');
-  var sentTs=_lastChangeTs||Date.now();
-  if(!_lastChangeTs)_lastChangeTs=sentTs;
   try{
-    var now=Date.now();
-    var payload={state:S,ts:sentTs,hb:now,meta:{ts:sentTs,hb:now}};
-    var res=await fetch(fbNode(),{method:'PUT',headers:_JSON_HDR,body:JSON.stringify(payload)});
+    var payload={state:S,ts:Date.now()};
+    var res=await fetch(fbNode(),{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
     if(!res.ok)throw new Error('HTTP '+res.status);
-    // fallback copy used by viewerLoad if the main node is ever unreadable
-    fetch(fbBase()+'/latest.json',{method:'PUT',headers:_JSON_HDR,body:JSON.stringify(payload)}).catch(function(){});
-    _lastRemoteTs=sentTs;_lastPushedTs=sentTs;
-    if(_lastChangeTs===sentTs)_dirty=false;   // changed again mid-flight? stay dirty
-    _pushFailNotified=false;
+    var base=_fbUrl.replace(/\/+$/,'');
+    fetch(base+'/latest.json',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    _lastRemoteTs=payload.ts;
     setSyncStatus('ok','Live');
-    var ls=el('fb-last-sync');if(ls)ls.textContent='Last push: '+new Date().toLocaleTimeString();
+    el('fb-last-sync').textContent='Last push: '+new Date().toLocaleTimeString();
     if(manual)toast('Pushed ✓','suc');
+    // Also save to localStorage as backup
     localStorage.setItem('auction_local_state',JSON.stringify(S));
   }catch(e){
     setSyncStatus('err','Push fail');
@@ -1600,146 +1430,73 @@ async function fbPush(manual){
       _pushFailNotified=true;
       toast('⚠ Sync failed — viewers NOT seeing updates! Check Firebase rules.','err');
     }
-  }finally{_pushing=false;}
+  }
 }
 
-// ── ADMIN: 5-second heartbeat. Pushes the full state if anything changed,
-//    otherwise writes a tiny heartbeat so viewers know the auction is live. ──
-async function adminTick(){
-  if(!_isAdmin||!_fbUrl||_pushing)return;
-  if(_dirty||!_lastPushedTs){await fbPush(false);return;}
-  try{
-    var res=await fetch(fbMetaUrl(),{method:'PUT',headers:_JSON_HDR,body:JSON.stringify({ts:_lastPushedTs,hb:Date.now()})});
-    if(!res.ok)throw new Error('HTTP '+res.status);
-    setSyncStatus('ok','Live');
-  }catch(e){setSyncStatus('err','Push fail');}
-}
-function startHeartbeat(){
-  stopHeartbeat();
-  _hbTimer=setInterval(adminTick,HEARTBEAT_INTERVAL);
-  adminTick();
-}
-function stopHeartbeat(){if(_hbTimer){clearInterval(_hbTimer);_hbTimer=null;}}
-
-// ── Manual / initial full pull ──
 async function fbPull(manual){
-  if(!_fbUrl||_pulling)return;
-  _pulling=true;
+  if(!_fbUrl)return;
   if(manual)setSyncStatus('syncing','Pulling…');
   try{
-    var res=await fetch(fbNode(),{cache:'no-store'});
+    var res=await fetch(fbNode());
     if(!res.ok)throw new Error('HTTP '+res.status);
     var data=await res.json();
-    if(!data||!data.state){if(manual)toast('Nothing published yet','');setSyncStatus('ok','Live');return;}
-    var changed=(data.ts!==_lastRemoteTs)||(_lastRemoteTs===0);
-    if(changed||manual){
-      applyRemote(data);
+    if(!data||!data.state)return;
+    // Viewers: always apply the latest state — never block on ts guard.
+    // Admins: only re-render when state actually changed (perf optimisation).
+    var isNewer=(data.ts&&data.ts>_lastRemoteTs)||(_lastRemoteTs===0);
+    if(isNewer||!_isAdmin){
+      var prevCurName=S.cur?S.cur.name:null;
+      if(data.ts)_lastRemoteTs=data.ts;
+      S=data.state;
+      localStorage.setItem('auction_local_state',JSON.stringify(S));
+      refreshAll();
+      setSyncStatus('ok','Live');
+      el('fb-last-sync').textContent='Updated: '+new Date().toLocaleTimeString();
       if(manual)toast('Pulled ✓','suc');
+      // Notify viewer when a player is sold (cur went from someone to null)
+      if(!_isAdmin&&!S.cur&&prevCurName&&S.hist&&S.hist.length){
+        var last=S.hist[S.hist.length-1];
+        showSoldNotify(last.pn+' → '+last.tn+' ('+fmt(last.amt)+')');
+      }
     }else{
       setSyncStatus('ok','Live');
       if(manual)toast('Already up to date','');
     }
   }catch(e){setSyncStatus('err','Poll fail');}
-  finally{_pulling=false;}
 }
 
-// Apply a remote snapshot to the UI (viewer, or admin on a manual pull)
-function applyRemote(data){
-  var prevCurName=S.cur?S.cur.name:null;
-  var prevHist=S.hist?S.hist.length:0;
-  _lastRemoteTs=data.ts||0;
-  S=data.state;
-  if(!S.hist)S.hist=[];
-  localStorage.setItem('auction_local_state',JSON.stringify(S));
-  refreshAll();
-  setSyncStatus('ok','Live');
-  var ls=el('fb-last-sync');if(ls)ls.textContent='Updated: '+new Date().toLocaleTimeString();
-  markViewerTime(false);
-  // Sold notification for viewers: a new sale appeared in history
-  if(!_isAdmin&&S.hist.length>prevHist&&prevCurName){
-    var last=S.hist[S.hist.length-1];
-    showSoldNotify(last.pn+' → '+last.tn+' ('+fmt(last.amt)+')');
-  }
-}
-
-// ── VIEWER: initial load, then poll every 5 s ──
+// Viewer: initial load with 3-strategy fetch
 async function viewerLoad(){
   try{
-    var res=await fetch(fbNode(),{cache:'no-store'});
+    // Try exact node first
+    var res=await fetch(fbNode());
     var data=null;
     if(res.ok){var d=await res.json();if(d&&d.state)data=d;}
+    // Fallback: /latest
     if(!data){
-      var r2=await fetch(fbBase()+'/latest.json',{cache:'no-store'});
+      var r2=await fetch(_fbUrl.replace(/\/+$/,'')+'/latest.json');
       if(r2.ok){var d2=await r2.json();if(d2&&d2.state)data=d2;}
     }
     if(data&&data.state){
-      S=data.state;if(!S.hist)S.hist=[];
-      _lastRemoteTs=data.ts||0;
-      _lastHb=data.hb||null;
+      S=data.state;_lastRemoteTs=data.ts||0;
       localStorage.setItem('auction_local_state',JSON.stringify(S));
-      setSyncStatus('ok','Live');markViewerTime(false);
-    }else{
-      setSyncStatus('ok','Waiting for admin…');
     }
-  }catch(e){setSyncStatus('err','Offline');}
+  }catch(e){}
   refreshAll();
   switchTab('auction');
   startPolling();
 }
 
-// One viewer poll: read the tiny meta node; only download the full state when it changed.
-async function viewerPoll(){
-  if(!_fbUrl||_isAdmin||_pulling)return;
-  _pulling=true;
-  try{
-    var res=await fetch(fbMetaUrl()+'?_='+Date.now(),{cache:'no-store'});
-    if(!res.ok)throw new Error('HTTP '+res.status);
-    var meta=await res.json();
-    if(meta&&meta.ts){
-      // Admin-alive detection (counts heartbeat changes, so no clock sync needed)
-      if(meta.hb===_lastHb){_hbSameCount++;}else{_hbSameCount=0;_lastHb=meta.hb;}
-      if(meta.ts!==_lastRemoteTs){
-        _pulling=false;
-        var full=await fetch(fbNode()+'?_='+Date.now(),{cache:'no-store'});
-        if(!full.ok)throw new Error('HTTP '+full.status);
-        var data=await full.json();
-        if(data&&data.state)applyRemote(data);
-        _pulling=true;
-      }else{
-        setSyncStatus('ok','Live');
-        markViewerTime(_hbSameCount>=4);   // 4 × 5 s with no heartbeat → admin probably offline
-      }
-    }else{
-      // No meta node yet (older admin build) — fall back to a full fetch
-      _pulling=false;await fbPull(false);_pulling=true;
-    }
-  }catch(e){setSyncStatus('err','Reconnecting…');}
-  finally{_pulling=false;}
-}
-
-function markViewerTime(stale){
-  var t=el('view-live-time');if(!t)return;
-  t.textContent=stale?'⚠ Admin offline? Last update '+new Date().toLocaleTimeString():'Updated '+new Date().toLocaleTimeString();
-  t.className=stale?'stale':'';
-}
-
 function startPolling(){
   stopPolling();
-  _pollTimer=setInterval(viewerPoll,POLL_INTERVAL);
-  viewerPoll();
+  _pollTimer=setInterval(function(){fbPull(false);},POLL_INTERVAL);
+  fbPull(false);
 }
 function stopPolling(){if(_pollTimer){clearInterval(_pollTimer);_pollTimer=null;}}
 
-// Browsers throttle timers in background tabs — catch up the moment the tab is visible again
-document.addEventListener('visibilitychange',function(){
-  if(document.hidden)return;
-  if(_isAdmin&&_fbUrl)adminTick();
-  else if(!_isAdmin&&_fbUrl&&_pollTimer)viewerPoll();
-});
-
 function fbDisconnect(){
   if(!confirm('Disconnect Firebase? Local data stays.'))return;
-  stopPolling();stopHeartbeat();_fbUrl='';
+  stopPolling();_fbUrl='';
   localStorage.removeItem(FB_URL_KEY);
   setSyncStatus('local','Local');refreshSyncUI();
   toast('Disconnected','');
@@ -1750,13 +1507,11 @@ function fbDisconnect(){
 // ══════════════════════════════════════════════════════
 var _pushFailNotified=false;
 
-function markDirty(){_dirty=true;_lastChangeTs=Date.now();}
-
-// Immediate push for time-critical events (player picked, bid changed, sold/unsold/undo).
-// Viewers pick it up on their next 5-second poll. If the push fails, the admin
-// heartbeat retries every 5 s until it succeeds.
+// Immediate push — bypasses the 1.8s debounce for time-critical events
+// (player picked, bid changed, player sold/unsold/undone).
+// Viewers see the change within ~2.5s (one poll cycle) instead of up to
+// 4.3s (debounce + poll interval).
 function pushNow(){
-  markDirty();
   localStorage.setItem('auction_local_state',JSON.stringify(S));
   if(_isAdmin&&_fbUrl){
     clearTimeout(_pushTimer);
@@ -1769,12 +1524,13 @@ function pushNow(){
 }
 
 function autoSave(){
-  markDirty();
+  // Always save to localStorage
   localStorage.setItem('auction_local_state',JSON.stringify(S));
   if(_isAdmin&&_fbUrl){
     clearTimeout(_pushTimer);
     _pushTimer=setTimeout(function(){fbPush(false);},PUSH_DEBOUNCE);
   }
+  // BroadcastChannel: instant tab-to-tab sync
   try{
     if(!_bc)_bc=new BroadcastChannel('auction_sync');
     _bc.postMessage({type:'update',state:S,ts:Date.now()});
