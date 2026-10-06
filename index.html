@@ -146,36 +146,20 @@ body.view-mode .view-banner{display:flex!important;}
 .view-banner{display:none;background:linear-gradient(135deg,rgba(59,224,160,.1),rgba(91,156,246,.07));border:1px solid rgba(59,224,160,.25);border-radius:10px;padding:9px 15px;align-items:center;gap:9px;margin-bottom:13px;font-size:.78rem;color:var(--green);}
 
 
-/* ── Live blink ── */
 @keyframes liveblink{0%,100%{opacity:1}50%{opacity:.2}}
-/* ── Live update flash on card ── */
-.live-flash{animation:liveflash .7s ease-out}
-@keyframes liveflash{0%{box-shadow:0 0 0 0 rgba(78,203,160,.8)}100%{box-shadow:0 0 0 14px rgba(78,203,160,0)}}
-/* ── Viewer mobile layout ── */
-@media(max-width:900px){
-  .viewer-auction-grid{grid-template-columns:1fr!important}
-  #sidebar{flex-direction:row!important;flex-wrap:wrap!important}
-  .scard{min-width:130px;flex:1 1 130px}
-}
-@media(max-width:640px){
-  .viewer-auction-grid{grid-template-columns:1fr!important;gap:10px!important}
-  #spn{font-size:clamp(1.3rem,7vw,2rem)!important}
-  #bdis{font-size:clamp(2rem,10vw,3.2rem)!important}
-  #spp-wrap img,.spp-placeholder{width:clamp(80px,26vw,130px)!important;height:clamp(80px,26vw,130px)!important}
-  .scard{min-width:unset;flex:1 1 calc(50% - 6px)}
-  .card{padding:12px!important}
-  #view-unsold-grid{grid-template-columns:repeat(auto-fill,minmax(70px,1fr))!important}
-}
-/* ── Viewer unsold panel ── */
-#view-unsold-card{background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:14px;position:relative;overflow:hidden;margin-top:0}
-#view-unsold-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--red),var(--blue))}
-#view-unsold-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:7px;margin-top:10px;max-height:340px;overflow-y:auto}
-.vup-item{background:var(--bg4);border:1px solid var(--border);border-radius:9px;padding:7px 5px;text-align:center;transition:border-color .3s}
-.vup-item.unsold{border-color:rgba(224,92,92,.5)}
-.vup-item img{width:38px;height:38px;border-radius:50%;object-fit:cover;display:block;margin:0 auto 4px}
-.vup-ph{width:38px;height:38px;border-radius:50%;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:.85rem;margin:0 auto 4px}
-.vup-name{font-size:.6rem;font-weight:600;line-height:1.2;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.vup-st{font-size:.5rem;font-weight:700;letter-spacing:.7px;text-transform:uppercase;margin-top:3px;padding:1px 5px;border-radius:8px;display:inline-block}
+.live-flash{animation:liveflash .8s ease-out}
+@keyframes liveflash{0%{box-shadow:0 0 0 0 rgba(78,203,160,.9)}100%{box-shadow:0 0 0 16px rgba(78,203,160,0)}}
+@media(max-width:900px){.vauc-grid{grid-template-columns:1fr!important}#sidebar{flex-direction:row!important;flex-wrap:wrap!important}.scard{min-width:130px;flex:1 1 130px}}
+@media(max-width:640px){.vauc-grid{grid-template-columns:1fr!important;gap:10px!important}#spn{font-size:clamp(1.2rem,7vw,2rem)!important}#bdis{font-size:clamp(1.8rem,10vw,3rem)!important}#spp-wrap img,.spp-placeholder{width:clamp(75px,24vw,120px)!important;height:clamp(75px,24vw,120px)!important}.scard{flex:1 1 calc(50% - 6px)}.card{padding:12px!important}#vup-grid{grid-template-columns:repeat(auto-fill,minmax(68px,1fr))!important}}
+#vup-card{background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:14px;position:relative;overflow:hidden}
+#vup-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--red),var(--blue))}
+#vup-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:7px;margin-top:10px;max-height:300px;overflow-y:auto}
+.vup-i{background:var(--bg4);border:1px solid var(--border);border-radius:9px;padding:7px 5px;text-align:center}
+.vup-i.unsold{border-color:rgba(224,92,92,.5)}
+.vup-i img{width:36px;height:36px;border-radius:50%;object-fit:cover;display:block;margin:0 auto 4px}
+.vup-ph{width:36px;height:36px;border-radius:50%;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:.8rem;margin:0 auto 4px}
+.vup-nm{font-size:.59rem;font-weight:600;line-height:1.2;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vup-st{font-size:.49rem;font-weight:700;letter-spacing:.6px;text-transform:uppercase;margin-top:3px;padding:1px 5px;border-radius:8px;display:inline-block}
 .vup-st.pending{background:rgba(226,176,74,.12);color:var(--gold);border:1px solid rgba(226,176,74,.3)}
 .vup-st.unsold{background:rgba(224,92,92,.12);color:var(--red);border:1px solid rgba(224,92,92,.3)}
 
@@ -583,7 +567,7 @@ body.view-mode .view-banner{display:flex!important;}
 
   <!-- ══════════════════ AUCTION TAB ══════════════════ -->
   <div class="panel" id="panel-auction">
-    <div class="al viewer-auction-grid" style="display:grid;grid-template-columns:1fr 270px;gap:16px;">
+    <div class="al vauc-grid" style="display:grid;grid-template-columns:1fr 270px;gap:16px;">
       <div style="display:flex;flex-direction:column;gap:14px;">
 
         <!-- Round indicator -->
@@ -645,13 +629,12 @@ body.view-mode .view-banner{display:flex!important;}
           </div>
         </div>
       </div>
-      <!-- Players Remaining — visible to admin AND viewers -->
-      <div id="view-unsold-card">
+      <div id="vup-card">
         <div style="display:flex;align-items:center;justify-content:space-between;">
           <span style="font-family:'Rajdhani',sans-serif;font-size:.9rem;letter-spacing:2px;color:var(--gold);font-weight:700;text-transform:uppercase;">📋 Players Remaining</span>
-          <span id="view-unsold-badge" style="font-size:.62rem;font-weight:700;color:var(--text2);"></span>
+          <span id="vup-badge" style="font-size:.62rem;font-weight:700;color:var(--text2);"></span>
         </div>
-        <div id="view-unsold-grid"></div>
+        <div id="vup-grid"></div>
       </div>
       <div id="sidebar" style="display:flex;flex-direction:column;gap:9px;"></div>
     </div>
@@ -686,7 +669,24 @@ var manualSelectedPlayer=null;
 
 function fmt(n){if(!n&&n!==0)return"—";if(n===0)return"₹0";if(n>=10000000)return"₹"+(n/10000000).toFixed(2).replace(/\.?0+$/,"")+"Cr";if(n>=100000)return"₹"+(n/100000).toFixed(2).replace(/\.?0+$/,"")+"L";if(n>=1000)return"₹"+(n/1000).toFixed(1).replace(/\.0$/,"")+"K";return"₹"+n;}
 function norm(s){return s.toLowerCase().replace(/[^a-z0-9]/g,"");}
-function b64(f){return new Promise(function(r){var fr=new FileReader();fr.onload=function(e){r(e.target.result);};fr.readAsDataURL(f);});}
+function b64(f,maxPx,quality){
+  maxPx=maxPx||480;quality=quality||0.72;
+  return new Promise(function(resolve){
+    var fr=new FileReader();
+    fr.onload=function(e){
+      var img=new Image();
+      img.onload=function(){
+        var w=img.width,h=img.height,sc=Math.min(1,maxPx/Math.max(w,h));
+        var cv=document.createElement('canvas');
+        cv.width=Math.round(w*sc);cv.height=Math.round(h*sc);
+        cv.getContext('2d').drawImage(img,0,0,cv.width,cv.height);
+        resolve(cv.toDataURL('image/jpeg',quality));
+      };
+      img.src=e.target.result;
+    };
+    fr.readAsDataURL(f);
+  });
+}
 function el(id){return document.getElementById(id);}
 
 function toast(msg,type){
@@ -896,81 +896,46 @@ function startAuction(){
   switchTab("auction");toast("Auction started!","suc");
 }
 function renderAuction(){
-  renderCurrentPlayerCard();
-  renderSidebar();
-  renderTBG();
-  updateProg();
-  refreshUndo();
-  renderViewerUnsoldPanel();
-  var ib=el("incbtn");if(ib)ib.textContent="+"+fmt(S.inc);
-  checkReAuctionBtn();
+  renderCurrentPlayerCard();renderSidebar();renderTBG();updateProg();refreshUndo();renderViewerUnsoldPanel();
+  var ib=el("incbtn");if(ib)ib.textContent="+"+fmt(S.inc);checkReAuctionBtn();
 }
-
-// Rebuilds current-player card from S.cur / S.bid.
-// THIS IS THE KEY VIEWER FIX: setCurrentPlayer() only runs on the admin's
-// machine. Viewers get S via fbPull and need this to update name/photo/bid.
 function renderCurrentPlayerCard(){
-  var spn=el("spn"),stag=el("sp-group-tag"),sp=el("spp-wrap"),bdis=el("bdis"),spb=el("spb");
+  var spn=el('spn'),stag=el('sp-group-tag'),sp=el('spp-wrap'),bdis=el('bdis'),spb=el('spb');
   if(!spn||!sp)return;
   if(S.cur){
-    var prev=sp.getAttribute("data-cur")||"";
+    var prev=sp.getAttribute('data-cur')||'';
     if(prev!==S.cur.name){
-      sp.setAttribute("data-cur",S.cur.name);
-      sp.innerHTML="";
-      if(S.cur.photo){
-        var img=document.createElement("img");
-        img.src=S.cur.photo;img.title="Click to view full size";
-        img.style.cssText="width:clamp(90px,28vw,140px);height:clamp(90px,28vw,140px);border-radius:50%;object-fit:cover;cursor:zoom-in;border:3px solid var(--gold);box-shadow:0 0 24px rgba(226,176,74,.35);";
-        sp.appendChild(img);
-      } else {
-        var ph=document.createElement("div");ph.className="spp-placeholder";ph.textContent="🏏";sp.appendChild(ph);
-      }
-      var card=sp.closest(".card");
-      if(card){card.classList.remove("live-flash");void card.offsetWidth;card.classList.add("live-flash");
-        setTimeout(function(){card.classList.remove("live-flash");},800);}
+      sp.setAttribute('data-cur',S.cur.name);sp.innerHTML='';
+      var srcP=S.players&&S.players.find(function(x){return x.name===S.cur.name;});
+      var photo=(srcP&&srcP.photo)||S.cur.photo||'';
+      if(photo){
+        var img=document.createElement('img');img.src=photo;img.title='Click to view full size';
+        img.style.cssText='width:clamp(90px,28vw,140px);height:clamp(90px,28vw,140px);border-radius:50%;object-fit:cover;cursor:zoom-in;border:3px solid var(--gold);box-shadow:0 0 24px rgba(226,176,74,.35);';
+        img.onclick=function(){openLightbox(photo,S.cur.name);};sp.appendChild(img);
+      }else{var ph=document.createElement('div');ph.className='spp-placeholder';ph.textContent='🏏';sp.appendChild(ph);}
+      var card=sp.closest('.card');
+      if(card){card.classList.remove('live-flash');void card.offsetWidth;card.classList.add('live-flash');setTimeout(function(){card.classList.remove('live-flash');},900);}
     }
-    spn.textContent=S.cur.name;
-    stag.innerHTML="";
-    if(S.cur.group){
-      var gc=getGroupColor(S.cur.group);
-      stag.innerHTML='<span class="group-tag" style="background:'+(gc?gc+"22":"rgba(0,0,0,.2)")+';color:'+(gc||"var(--text2)")+';border:1px solid '+(gc||"var(--border)")+';font-size:.68rem;padding:3px 12px;">'+S.cur.group+'</span>';
-    }
-    bdis.textContent=fmt(S.bid);
-    spb.textContent="Base: "+fmt(S.baseBid);
-  } else {
-    if(sp.getAttribute("data-cur")!=="__none__"){
-      sp.setAttribute("data-cur","__none__");
-      sp.innerHTML="<div class='spp-placeholder'>🏏</div>";
-    }
-    spn.textContent="— Waiting —";
-    stag.innerHTML="";
-    bdis.textContent="—";
-    spb.textContent="Base: "+fmt(S.baseBid);
+    spn.textContent=S.cur.name;stag.innerHTML='';
+    if(S.cur.group){var gc=getGroupColor(S.cur.group);stag.innerHTML='<span class="group-tag" style="background:'+(gc?gc+'22':'rgba(0,0,0,.2)')+';color:'+(gc||'var(--text2)')+';border:1px solid '+(gc||'var(--border)')+';font-size:.68rem;padding:3px 12px;">'+S.cur.group+'</span>';}
+    bdis.textContent=fmt(S.bid);spb.textContent='Base: '+fmt(S.baseBid);
+  }else{
+    if(sp.getAttribute('data-cur')!=='__none__'){sp.setAttribute('data-cur','__none__');sp.innerHTML="<div class='spp-placeholder'>🏏</div>";}
+    spn.textContent='— Waiting —';stag.innerHTML='';bdis.textContent='—';spb.textContent='Base: '+fmt(S.baseBid);
   }
 }
-
-// Renders pending + unsold players in the "Players Remaining" panel.
-// Both statuses are always read directly from S.players so this always
-// reflects the freshest pulled state.
 function renderViewerUnsoldPanel(){
-  var grid=el("view-unsold-grid"),badge=el("view-unsold-badge");
-  if(!grid)return;
-  var players=S&&S.players?S.players:[];
-  var pending=players.filter(function(p){return p.status==="pending";});
-  var unsold=players.filter(function(p){return p.status==="unsold";});
-  if(badge)badge.textContent=pending.length+" pending · "+unsold.length+" unsold";
+  var grid=el('vup-grid'),badge=el('vup-badge');if(!grid)return;
+  var players=(S&&S.players)?S.players:[];
+  var pending=players.filter(function(p){return p.status==='pending';});
+  var unsold=players.filter(function(p){return p.status==='unsold';});
+  if(badge)badge.textContent=pending.length+' pending · '+unsold.length+' unsold';
   var all=pending.concat(unsold);
-  if(!all.length){
-    grid.innerHTML='<div style="grid-column:1/-1;color:var(--text3);font-size:.72rem;padding:12px;text-align:center;">🎉 All players auctioned!</div>';
-    return;
-  }
-  var h="";
+  if(!all.length){grid.innerHTML='<div style="grid-column:1/-1;color:var(--text3);font-size:.72rem;padding:12px;text-align:center;">🎉 All players auctioned!</div>';return;}
+  var h='';
   all.forEach(function(p){
-    var ph=p.photo?'<img src="'+p.photo+'" loading="lazy" alt="">':'<div class="vup-ph">🏏</div>';
-    h+='<div class="vup-item'+(p.status==="unsold"?" unsold":"")+'">'+ph
-      +'<div class="vup-name">'+p.name+'</div>'
-      +'<span class="vup-st '+p.status+'">'+p.status+'</span>'
-      +'</div>';
+    var ph=p.photo?'<img src="'+p.photo+'" loading="lazy" alt="">'+'':'<div class="vup-ph">🏏</div>';
+    h+='<div class="vup-i'+(p.status==='unsold'?' unsold':'')+'">'+ph+'<div class="vup-nm">'+p.name+'</div><span class="vup-st '+p.status+'">'+p.status+'</span></div>';
   });
   grid.innerHTML=h;
 }
@@ -1110,7 +1075,7 @@ function assignPlayer(){
   if(S.cur.group){var glim=getGroupLimit(S.cur.group);if(glim>0&&teamGroupCount(t,S.cur.group)>=glim){toast(t.name+" reached "+S.cur.group+" limit","err");return;}}
   var pi=S.players.findIndex(function(p){return p.name===S.cur.name;});
   S.players[pi].status="sold";S.players[pi].soldTo=t.name;S.players[pi].soldAmount=S.bid;
-  t.spent+=S.bid;t.players.push({name:S.cur.name,photo:S.cur.photo,amount:S.bid});
+  t.spent+=S.bid;t.players.push({name:S.cur.name,amount:S.bid});
   S.hist.push({pi:pi,ti:S.sel,amt:S.bid,pn:S.cur.name,tn:t.name});
   showSold(S.cur,t,S.bid);confetti();
   S.cur=null;S.bid=0;S.sel=null;
@@ -1252,7 +1217,8 @@ function doReset(){
 var ADMIN_PW_KEY='auction_admin_pw';
 var FB_URL_KEY='auction_fb_url';
 var AUCTION_NODE='auction_state';
-var POLL_INTERVAL=2500;
+var POLL_INTERVAL=3000;
+var _sse=null;
 var PUSH_DEBOUNCE=1800;
 var _fbUrl='';
 var _pollTimer=null;
@@ -1385,14 +1351,12 @@ async function fbConnect(){
   _fbUrl=url;
   try{
     var base=_fbUrl.replace(/\/+$/,'');
-    // Test READ
     var rr=await fetch(base+'/.json?shallow=true');
     if(rr.status===401||rr.status===403)throw new Error('Read denied ('+rr.status+'). Set ".read":true in Firebase Rules.');
     if(!rr.ok)throw new Error('Read failed HTTP '+rr.status);
-    // Test WRITE — connection looks ok but every push will silently fail if write is blocked
     var pingUrl=base+'/_writetest.json';
     var rw=await fetch(pingUrl,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(Date.now())});
-    if(rw.status===401||rw.status===403)throw new Error('Write denied ('+rw.status+'). Set ".write":true in Firebase Rules — pushes will fail.');
+    if(rw.status===401||rw.status===403)throw new Error('Write denied ('+rw.status+'). Set ".write":true in Firebase Rules.');
     if(!rw.ok)throw new Error('Write test HTTP '+rw.status);
     fetch(pingUrl,{method:'DELETE'}).catch(function(){});
     _pushFailNotified=false;
@@ -1401,7 +1365,7 @@ async function fbConnect(){
     refreshSyncUI();
     startPolling();
     if(_isAdmin)fbPush(false);
-    statusEl.textContent='✓ Connected! (read + write verified)';statusEl.style.color='var(--green)';
+    statusEl.textContent='✓ Connected! (read+write verified)';statusEl.style.color='var(--green)';
     toast('Firebase connected ✓','suc');
   }catch(err){
     _fbUrl='';statusEl.textContent='✗ '+err.message;statusEl.style.color='var(--red)';setSyncStatus('err','Error');
@@ -1423,14 +1387,7 @@ async function fbPush(manual){
     if(manual)toast('Pushed ✓','suc');
     // Also save to localStorage as backup
     localStorage.setItem('auction_local_state',JSON.stringify(S));
-  }catch(e){
-    setSyncStatus('err','Push fail');
-    if(manual){toast('Push failed: '+e.message,'err');}
-    else if(!_pushFailNotified){
-      _pushFailNotified=true;
-      toast('⚠ Sync failed — viewers NOT seeing updates! Check Firebase rules.','err');
-    }
-  }
+  }catch(e){setSyncStatus('err','Push fail');if(manual){toast('Push failed: '+e.message,'err');}else if(!_pushFailNotified){_pushFailNotified=true;toast('⚠ Sync failed — viewers NOT seeing updates!','err');}}
 }
 
 async function fbPull(manual){
@@ -1441,8 +1398,6 @@ async function fbPull(manual){
     if(!res.ok)throw new Error('HTTP '+res.status);
     var data=await res.json();
     if(!data||!data.state)return;
-    // Viewers: always apply the latest state — never block on ts guard.
-    // Admins: only re-render when state actually changed (perf optimisation).
     var isNewer=(data.ts&&data.ts>_lastRemoteTs)||(_lastRemoteTs===0);
     if(isNewer||!_isAdmin){
       var prevCurName=S.cur?S.cur.name:null;
@@ -1453,7 +1408,6 @@ async function fbPull(manual){
       setSyncStatus('ok','Live');
       el('fb-last-sync').textContent='Updated: '+new Date().toLocaleTimeString();
       if(manual)toast('Pulled ✓','suc');
-      // Notify viewer when a player is sold (cur went from someone to null)
       if(!_isAdmin&&!S.cur&&prevCurName&&S.hist&&S.hist.length){
         var last=S.hist[S.hist.length-1];
         showSoldNotify(last.pn+' → '+last.tn+' ('+fmt(last.amt)+')');
@@ -1489,10 +1443,54 @@ async function viewerLoad(){
 
 function startPolling(){
   stopPolling();
-  _pollTimer=setInterval(function(){fbPull(false);},POLL_INTERVAL);
-  fbPull(false);
+  if(!_isAdmin&&_fbUrl&&typeof EventSource!=='undefined'){
+    startSSE();
+  } else {
+    _pollTimer=setInterval(function(){fbPull(false);},POLL_INTERVAL);
+    fbPull(false);
+  }
 }
-function stopPolling(){if(_pollTimer){clearInterval(_pollTimer);_pollTimer=null;}}
+function stopPolling(){
+  if(_pollTimer){clearInterval(_pollTimer);_pollTimer=null;}
+  stopSSE();
+}
+function startSSE(){
+  stopSSE();
+  var sseUrl=fbNode().replace('.json','.json?accept=text%2Fevent-stream');
+  try{
+    _sse=new EventSource(sseUrl);
+    _sse.addEventListener('put',function(ev){
+      try{
+        var msg=JSON.parse(ev.data);
+        if(!msg||!msg.data||!msg.data.state)return;
+        var data=msg.data;
+        var prevCurName=S.cur?S.cur.name:null;
+        S=data.state;
+        _lastRemoteTs=data.ts||Date.now();
+        localStorage.setItem('auction_local_state',JSON.stringify(S));
+        refreshAll();
+        setSyncStatus('ok','Live ●');
+        el('fb-last-sync').textContent='Updated: '+new Date().toLocaleTimeString();
+        if(!S.cur&&prevCurName&&S.hist&&S.hist.length){
+          var last=S.hist[S.hist.length-1];
+          showSoldNotify(last.pn+' → '+last.tn+' ('+fmt(last.amt)+')');
+        }
+      }catch(err){}
+    });
+    _sse.onerror=function(){
+      stopSSE();
+      if(!_pollTimer){_pollTimer=setInterval(function(){fbPull(false);},POLL_INTERVAL);fbPull(false);}
+    };
+    _sse.onopen=function(){
+      setSyncStatus('ok','Live ●');
+      if(_pollTimer){clearInterval(_pollTimer);_pollTimer=null;}
+    };
+  }catch(err){
+    _pollTimer=setInterval(function(){fbPull(false);},POLL_INTERVAL);
+    fbPull(false);
+  }
+}
+function stopSSE(){if(_sse){_sse.close();_sse=null;}}
 
 function fbDisconnect(){
   if(!confirm('Disconnect Firebase? Local data stays.'))return;
@@ -1506,23 +1504,11 @@ function fbDisconnect(){
 // AUTO-SAVE (admin: debounced push on every state change)
 // ══════════════════════════════════════════════════════
 var _pushFailNotified=false;
-
-// Immediate push — bypasses the 1.8s debounce for time-critical events
-// (player picked, bid changed, player sold/unsold/undone).
-// Viewers see the change within ~2.5s (one poll cycle) instead of up to
-// 4.3s (debounce + poll interval).
 function pushNow(){
   localStorage.setItem('auction_local_state',JSON.stringify(S));
-  if(_isAdmin&&_fbUrl){
-    clearTimeout(_pushTimer);
-    fbPush(false);
-  }
-  try{
-    if(!_bc)_bc=new BroadcastChannel('auction_sync');
-    _bc.postMessage({type:'update',state:S,ts:Date.now()});
-  }catch(e){}
+  if(_isAdmin&&_fbUrl){clearTimeout(_pushTimer);fbPush(false);}
+  try{if(!_bc)_bc=new BroadcastChannel('auction_sync');_bc.postMessage({type:'update',state:S,ts:Date.now()});}catch(e){}
 }
-
 function autoSave(){
   // Always save to localStorage
   localStorage.setItem('auction_local_state',JSON.stringify(S));
@@ -1634,7 +1620,7 @@ function refreshAll(){
     if(S.cur.group){var glim=getGroupLimit(S.cur.group);if(glim>0&&teamGroupCount(t,S.cur.group)>=glim){toast(t.name+' reached '+S.cur.group+' limit','err');return;}}
     var pi=S.players.findIndex(function(p){return p.name===S.cur.name;});
     S.players[pi].status='sold';S.players[pi].soldTo=t.name;S.players[pi].soldAmount=S.bid;
-    t.spent+=S.bid;t.players.push({name:S.cur.name,photo:S.cur.photo,amount:S.bid});
+    t.spent+=S.bid;t.players.push({name:S.cur.name,amount:S.bid});
     S.hist.push({pi:pi,ti:S.sel,amt:S.bid,pn:S.cur.name,tn:t.name});
     showSold(S.cur,t,S.bid);confetti();
     S.cur=null;S.bid=0;S.sel=null;
